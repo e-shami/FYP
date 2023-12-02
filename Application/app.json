@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Tankerwala",
-    "slug": "citygo-dev",
+    "slug": "tankerwala-dev",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/notificationIcon.png",
@@ -12,7 +12,6 @@
         {
           "photosPermission": "The app accesses your photos to display on your profile."
         }
-
       ],
       [
         "expo-notifications",
@@ -35,7 +34,6 @@
     ],
     "ios": {
       "icon": "./assets/notificationIcon.png",
-
       "supportsTablet": true,
       "bundleIdentifier": "com.lunatech.CityGo",
       "config": {
@@ -44,7 +42,6 @@
     },
     "android": {
       "icon": "./assets/notificationIcon.png",
-
       "package": "com.lunatech.CityGo",
       "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true,
@@ -65,8 +62,10 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      
-    }
+      "eas": {
+        "projectId": "4e16e664-c758-4549-85de-35a5af821248"
+      }
+    },
+    "owner": "shami169"
   }
 }
-    
