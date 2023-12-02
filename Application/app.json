@@ -27,7 +27,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/4e16e664-c758-4549-85de-35a5af821248"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -35,10 +36,7 @@
     "ios": {
       "icon": "./assets/notificationIcon.png",
       "supportsTablet": true,
-      "bundleIdentifier": "com.lunatech.CityGo",
-      "config": {
-        "googleMapsApiKey": "AIzaSyBSXECJBiw1cTjkx0kxV_1ReIlV1DlRVL8"
-      }
+      "bundleIdentifier": "com.lunatech.CityGo"
     },
     "android": {
       "icon": "./assets/notificationIcon.png",
@@ -51,12 +49,7 @@
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ],
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyBSXECJBiw1cTjkx0kxV_1ReIlV1DlRVL8"
-        }
-      }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -66,6 +59,9 @@
         "projectId": "4e16e664-c758-4549-85de-35a5af821248"
       }
     },
-    "owner": "shami169"
+    "owner": "shami169",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
   }
 }
