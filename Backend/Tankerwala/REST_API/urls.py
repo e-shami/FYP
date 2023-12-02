@@ -1,0 +1,32 @@
+from django.urls import path
+from . import views , Views2
+
+urlpatterns = [
+    path("logIn", views.login),
+    path('signUp/', views.signup),
+    path('signupAsRider/', views.signupAsRider),
+    path('verifyOTP/', views.verifyOTP),
+    path('bookRide/', views.bookRide),
+    path('getVehicleTypes', views.getVehicleTypes),
+    path('checkRideStatus/', views.checkRideStatus),
+    path('updateDP/', views.updateDP),
+    path('userProfile/', views.getProfileDetails),
+    path('getAllRides', views.getAllRides),
+    path('changePass', views.changePass),
+    path('changeCity', views.ChangeCity),
+    path('updateRideRating', views.updateRideRating),
+    path('changePhone', views.changePhone),
+    path('changeName', views.changeName),
+    path('cancelRide', views.cancelRide),
+    path('getRideDetails', views.getRideDetails),
+    path('RideDetail', views.RideDetail),
+    path('resendOTP/', views.resendOTP),
+    path('getNearbyRides/', views.getNearbyRides),
+    path('rideAccepted/', Views2.rideAccepted),
+    path('checkOnGoingRide/', Views2.checkOnGoingRide),
+    path('dashboard', views.dashboard),
+    path('checkPromo', views.checkPromo),
+    path('resetPass', views.resetPass),
+    path('setNewPass', views.setNewPass),
+    path('test/', views.getNearbyRides),
+]

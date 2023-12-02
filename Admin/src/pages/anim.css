@@ -1,0 +1,10 @@
+.anim{
+    animation: side 1s 1;
+    position: relative;
+
+}
+
+@keyframes side {
+    0% { right: -1000px; top: 0px;}
+    100% {right: 0; top: 0px;}
+}

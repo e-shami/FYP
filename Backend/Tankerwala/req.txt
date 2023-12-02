@@ -1,0 +1,6 @@
+channels==3.0.4
+Django ==3.2.16
+djangorestframework
+markdown
+django-filter
+exponent_server_sdk

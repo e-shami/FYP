@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "635031188048",
+    "project_id": "citygo-6888c",
+    "storage_bucket": "citygo-6888c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635031188048:android:b0794ac97c954ef9c91755",
+        "android_client_info": {
+          "package_name": "com.lunatech.CityGo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635031188048-ssa6s6q7l8cgfgjc902nhekisufvpt6q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCkOymN4nfq_hRH6-UOj37363PToRyCYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "635031188048-ssa6s6q7l8cgfgjc902nhekisufvpt6q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
