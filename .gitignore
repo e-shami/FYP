@@ -1,0 +1,9 @@
+# Ignore node_modules in Admin (React JS)
+/Admin/node_modules/
+
+# Ignore .expo directory and node_modules in Application (Expo React Native)
+/Application/.expo/
+/Application/node_modules/
+
+# Ignore .venv directory in Backend (Django)
+/Backend/.venv/
