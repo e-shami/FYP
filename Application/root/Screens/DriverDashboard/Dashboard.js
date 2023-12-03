@@ -5,7 +5,7 @@ import {
   View,
   ScrollView,
   RefreshControl,
-  Pressable,
+  Pressable, Dimensions,
 } from "react-native";
 import RideHistoryCard from "../../Components/RideHistoryCard";
 import React, {
@@ -17,11 +17,13 @@ import React, {
 } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ApiUrl } from "../../Urls/ApiUrls";
+import {Picker} from "@react-native-picker/picker";
 import LoadingModel from "../Modal/loadingModel";
 import ErrorModel from "../Modal/ErrorModel";
 import { SessionContext } from "../../Context/SessionContext";
 import { SwitchUserContext } from "../../Context/SwitchUserContext";
 import MapPickUpDropOff from "../Maps/MapPickUpDropOff";
+import {LineChart} from "react-native-chart-kit";
 
 export default function Dashboard(props) {
   let appMode = useContext(SwitchUserContext);
@@ -33,7 +35,10 @@ export default function Dashboard(props) {
   const imageSize = 50;
   const CirlceSize = 12;
   const [rating, setRating] = useState(0);
-
+const [graphData, setGraphData] = useState({
+  labels:[1],
+    datasets:[{data:[]}]
+})
   const styles2 = StyleSheet.create({
     conatiner: {
       flex: 1,
@@ -46,7 +51,6 @@ export default function Dashboard(props) {
     image: {
       padding: 15,
       borderRadius: 15,
-      paddingVertical: 10,
       flex: 1,
       justifyContent: "space-between",
       paddingVertical: 20,
@@ -157,39 +161,93 @@ export default function Dashboard(props) {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
   const [refreshing, setRefreshing] = React.useState(false);
+  const [filters, setFilters] = useState([
+    { label: "Last 30 mins", value: "LAST_30_MIN" },
+    { label: "Last 24 hrs", value: "LAST_24_HOURS" },
+    { label: "Last 7 days", value: "LAST_7_DAYS" },
+    { label: "Last 30 days", value: "LAST_30_DAYS" },
+    ]);
+  const [filterType, setFilterType] = useState("LAST_30_MIN");
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    getDashboard();
+    getLevelHistory(filterType);
     wait(2000).then(() => setRefreshing(false));
   }, []);
-  async function getDashboard() {
-    let type = "";
-    if (appMode.SwitchUserDefaultData.isUserDriver) {
-      type = "asDriver";
-    } else {
-      type = "asRider";
-    }
-    let data = {
-      type: type,
-    };
+  useEffect(() => {
+    setRefreshing(true);
+    setLoading(true)
+    getLevelHistory(filterType);
+    wait(2000).then(() => setRefreshing(false));
+  }, [filterType]);
 
-    await fetch(ApiUrl.dashboard, {
-      method: "POST",
+  const translateIntoGraphData = (data) => {
+    console.log(data)
+    let labels = [];
+    let datasets = [];
+    if(data[0]?.hour){
+      labels = data.map((item)=> item.hour);
+      let Xdata = data.map((item)=> item.tankeLevel);
+      Xdata.reverse();
+      datasets =[
+        {
+          data: Xdata
+        }
+      ]
+      // reverse the array
+        labels.reverse();
+      }
+    else{
+
+      labels = data.map((item)=> item.day );
+        let Xdata = data.map((item)=> item.tankeLevel);
+        Xdata.reverse();
+        datasets =[
+            {
+                data: Xdata
+            }
+        ]
+        // reverse the array
+        labels.reverse();
+
+    }
+    let tempData = {
+        labels: labels,
+      datasets: datasets
+    }
+    console.log(tempData)
+    setGraphData(tempData);
+
+  }
+  async function getLevelHistory(filterType="LAST_30_MIN") {
+    console.log(filterType)
+
+
+    await fetch(`${ApiUrl.getLevelHistory}?filterType=${filterType}`, {
+      method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: "Token " + session.SessionData.Token,
-      },
-      body: JSON.stringify(data),
+      }
     })
       .then((response) => response.json())
-      .then((data) => {
-        if (data.status <= 200) {
-          setData(data.msg);
+      .then((DATA) => {
+        if (DATA.status <= 200) {
+          console.log(DATA)
+         if(filterType!== "LAST_30_MIN"){
+              let temp = DATA;
+              temp.estimatedRemainingTime = data.estimatedRemainingTime;
+           console.log("TEMP",temp)
+              setData(temp);
+         }else{
+              setData(DATA);
+         }
+            translateIntoGraphData(DATA.msg)
+
           setLoading(false);
         } else {
           setLoading(false);
-          setErrors([data.msg]);
+          setErrors([DATA.msg]);
         }
       })
       .catch(function (error) {
@@ -200,9 +258,18 @@ export default function Dashboard(props) {
   }
   const [errors, setErrors] = useState([]);
   const [isLoadingOpen, setLoading] = useState(true);
+  const pickerRef = useRef();
+  function open() {
+    pickerRef.current?.focus();
+  }
+
+  function close() {
+    pickerRef.current?.blur();
+  }
+
   const session = useContext(SessionContext);
   useEffect(() => {
-    getDashboard();
+    getLevelHistory("LAST_30_MIN");
   }, []);
 
   return (
@@ -274,11 +341,11 @@ export default function Dashboard(props) {
                     textDecorationLine: "underline",
                   }}
                 >
-                  {data.water}         L
+                  {data.totalCapacity}         L
                 </Text>
               </View>
-              
-              
+
+
               <View
                 style={{
                   justifyContent: "space-between",
@@ -307,7 +374,7 @@ export default function Dashboard(props) {
                     textDecorationLine: "underline",
                   }}
                 >
-                  {data.water}        %
+                  {data.lastReading}        %
                 </Text>
               </View>
 
@@ -340,7 +407,7 @@ export default function Dashboard(props) {
                     textDecorationLine: "underline",
                   }}
                 >
-                  {data.water}        Hrs
+                  {data.estimatedRemainingTime}        Hrs
                 </Text>
               </View>
             </View>
@@ -358,6 +425,128 @@ export default function Dashboard(props) {
 
         {/* </ImageBackground> */}
       </View>
+
+
+      <View
+        style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+        }}
+        >
+        <Text
+            style={{
+                color: "black",
+                marginTop: 25,
+                fontWeight: "500",
+            }}
+            >Filter By</Text>
+        <Pressable
+            onPress={() => {
+              open()
+            }}
+            style={{
+          flexDirection:"row"
+
+        }}>
+          <Text>
+            {filterType === "LAST_30_MIN" ? "Last 30 mins" : filterType === "LAST_24_HOURS" ? "Last 24 hrs" : filterType === "LAST_7_DAYS" ? "Last 7 days" :filterType=== "LAST_30_DAYS"? "Last 30 days":""}
+          </Text>
+
+          <Picker
+              ref = {pickerRef}
+              selectedValue={filterType}
+              onValueChange={(itemValue, itemIndex) => {
+
+                setFilterType(itemValue)
+              }
+
+              }>
+            {filters.map((item, index) => {
+                return <Picker.Item label={item.label} value={item.value} key={index} />
+            })}
+
+          </Picker>
+        </Pressable>
+      </View>
+      {graphData.labels.length> 0 && data?.msg?.length>0
+          ? (
+
+          <LineChart
+              // data={{
+              //   labels: ["January", "February", "March", "April", "May", "June"],
+              //   datasets: [
+              //     {
+              //       data: [
+              //         Math.random() * 100,
+              //         Math.random() * 100,
+              //         Math.random() * 100,
+              //         Math.random() * 100,
+              //         Math.random() * 100,
+              //         Math.random() * 100
+              //       ]
+              //     }
+              //   ]
+              // }}
+              data={{
+                labels: graphData?.labels? graphData.labels:["January", "February", "March", "April", "May", "June"],
+                datasets: graphData.datasets? graphData.datasets:[{
+                  data: [
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100
+                  ]
+                }]
+              }}
+              width={Dimensions.get("window").width-45} // from react-native
+              height={220}
+
+              yAxisSuffix="%"
+              yAxisInterval={1} // optional, defaults to 1
+              chartConfig={{
+                backgroundColor: "#e26a00",
+                backgroundGradientFrom: "#fb8c00",
+                backgroundGradientTo: "#ffa726",
+                decimalPlaces: 2, // optional, defaults to 2dp
+                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                style: {
+                  borderRadius: 16
+                },
+                propsForDots: {
+                  r: "6",
+                  strokeWidth: "2",
+                  stroke: "#ffa726"
+                }
+              }}
+              propsForHorizontalLabels={{
+                fontSize: 10
+              }}
+
+              bezier
+              style={{
+                marginVertical: 8,
+                borderRadius: 16,
+                fontSize: 10,
+              }}
+          />
+      ) : (
+
+        <View>
+            <Text
+                style={{
+                    color: "black",
+                    marginTop: 25,
+                    fontWeight: "500",
+                    fontFamily: "Poppins_400Regular",
+                    fontSize: 18,
+                }}
+                >No Data Found</Text>
+        </View>
+        )}
+
       <Text
         style={{
           color: "black",

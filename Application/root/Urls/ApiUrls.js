@@ -36,6 +36,7 @@ export const ApiUrl = {
     getVehicleTypes:MainUrl+"getVehicleTypes",
     rideAccepted:MainUrl+"rideAccepted/",
     checkOnGoingRide:MainUrl+"checkOnGoingRide/",
+    getLevelHistory:MainUrl+"update-tank-level-history/",
     dp:"http://"+Domain,
 
 }
