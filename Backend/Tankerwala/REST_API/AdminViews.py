@@ -181,7 +181,7 @@ def getVerfiUser(request):
     dataPerPage = data["count"]
     end = page * dataPerPage
     start = end - dataPerPage
-    drivers = CityUser.objects.filter(driver_id__authStatus=status, user__email__icontains=query,
+    drivers = TankerwalaUser.objects.filter(driver_id__authStatus=status, user__email__icontains=query,
                                       user__is_active=True).order_by(
         'creationDate')[start:end]
     return JsonResponse({
@@ -253,7 +253,7 @@ def ApproveDriver(request):
         dr.isApproved = True
         dr.authStatus = "APPROVED"
         dr.save()
-        cityuser = CityUser.objects.get(driver_id=dr)
+        cityuser = TankerwalaUser.objects.get(driver_id=dr)
         send_message(cityuser.notificationToken,
                      "Driver Profile Approved",
                      f"Hey {cityuser.user.first_name}!, Your request for CityGo driver signup is Approved.")
@@ -264,7 +264,7 @@ def ApproveDriver(request):
     elif status == "DECLINED":
         dr.authStatus = "REJECTED"
         dr.save()
-        cityuser = CityUser.objects.get(driver_id=dr)
+        cityuser = TankerwalaUser.objects.get(driver_id=dr)
         send_message(cityuser.notificationToken,
                      "Driver Profile Rejected",
                      f"Hey {cityuser.user.first_name}!, Your request for CityGo driver signup is Rejected.")
@@ -371,7 +371,7 @@ couponID = ""
 def sendCouponNotifications():
     coupon = Coupon.objects.get(id=int(couponID))
     print(coupon)
-    cityUsers = CityUser.objects.filter(user__is_active=True)
+    cityUsers = TankerwalaUser.objects.filter(user__is_active=True)
     title = f"Enjoy {coupon.discount}% off!!"
     Msg = f"You have got a new Coupon : '{coupon.Code}'\nYou can use this code for {coupon.NoOfRides} ride(s).\nEnjoy discounts :D"
     for cityUser in cityUsers:

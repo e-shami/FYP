@@ -1,4 +1,4 @@
-#!d:\fyp\fyp\backend\.venv\scripts\python.exe
+#!D:\FYP\Backend\.venv\Scripts\python.exe
 
 # $Id: rst2xml.py 4564 2006-05-21 20:44:42Z wiemann $
 # Author: David Goodger <goodger@python.org>

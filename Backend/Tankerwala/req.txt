@@ -4,3 +4,8 @@ djangorestframework
 markdown
 django-filter
 exponent_server_sdk
+
+backports.zoneinfo==0.2.1
+libcst==0.4.7
+multidict==6.0.2
+typed-ast==1.5.4

@@ -44,5 +44,8 @@ def genOTP(x):
 def sendMsg(acc_sid, auth_token, body, sender, receiver):
     from twilio.rest import Client
     client = Client(acc_sid, auth_token)
-    message = client.messages.create(body=body, from_=sender, to=receiver)
+    try:
+        client.messages.create(body=body, from_=sender, to=receiver)
+    except(Exception) as e:
+        return e
 

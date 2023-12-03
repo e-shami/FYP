@@ -1,7 +1,7 @@
 import json
 
 from rest_framework import serializers
-from .models import Ride, Address, CityUser, Driver, VehicleType, CurrentLocation, Vehicle, City, Coupon, Logs
+from .models import Ride, Address, TankerwalaUser, Driver, VehicleType, CurrentLocation, Vehicle, City, Coupon, Logs
 from django.contrib.auth.models import User
 
 
@@ -23,7 +23,7 @@ class CityUserSerializerAdmin(serializers.ModelSerializer):
     driver_id = DriverForCarSerializer()
 
     class Meta:
-        model = CityUser
+        model = TankerwalaUser
         depth = True
         fields = "__all__"
 

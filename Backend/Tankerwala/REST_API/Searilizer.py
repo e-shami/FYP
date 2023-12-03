@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Ride, Address, CityUser, VehicleType, CurrentLocation, Vehicle, City, Driver
+from .models import Ride, Address, TankerwalaUser, VehicleType, CurrentLocation, Vehicle, City, Driver
 from django.contrib.auth.models import User
 
 
@@ -30,7 +30,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     user = MainUserSerializers()
 
     class Meta:
-        model = CityUser
+        model = TankerwalaUser
         fields = [
             "id",
             "dp",
@@ -52,7 +52,7 @@ class UserSerializer(serializers.ModelSerializer):
     user = MainUserSerializers()
 
     class Meta:
-        model = CityUser
+        model = TankerwalaUser
         fields = [
             "dp",
             "user",
@@ -101,7 +101,7 @@ class DriverSerializer(serializers.ModelSerializer):
     driver_id = DriverIdSer()
 
     class Meta:
-        model = CityUser
+        model = TankerwalaUser
         fields = "__all__"
         depth = True
 
@@ -140,7 +140,7 @@ class UserSerializer2(serializers.ModelSerializer):
     user = MainUserSerializers()
 
     class Meta:
-        model = CityUser
+        model = TankerwalaUser
         fields = [
             "dp",
             "user",

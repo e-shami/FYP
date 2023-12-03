@@ -1,4 +1,4 @@
-#!d:\fyp\fyp\backend\.venv\scripts\python.exe
+#!D:\FYP\Backend\.venv\Scripts\python.exe
 
 # Author:
 # Contact: grubert@users.sf.net

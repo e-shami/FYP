@@ -1,4 +1,4 @@
-#!d:\fyp\fyp\backend\.venv\scripts\python.exe
+#!D:\FYP\Backend\.venv\Scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

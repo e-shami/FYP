@@ -1,4 +1,4 @@
-#!d:\fyp\fyp\backend\.venv\scripts\python.exe
+#!D:\FYP\Backend\.venv\Scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'autobahn==22.7.1','console_scripts','xbrnetwork'
 import re
 import sys

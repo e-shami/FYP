@@ -54,7 +54,7 @@ class ChatConsumer(WebsocketConsumer):
         text_data["msg"]["date"] = date[0]
         text_data["msg"]["time"] = date[1]
         ride = Ride.objects.get(id=text_data["msg"]["rideId"])
-        user = CityUser.objects.get(user__id=text_data["msg"]["id"])
+        user = TankerwalaUser.objects.get(user__id=text_data["msg"]["id"])
         Chatting(ride=ride, user=user, message=text_data["msg"]["msg"], date=date[0], time=date[1]).save()
         receiver = user
         if ride.driver == user:

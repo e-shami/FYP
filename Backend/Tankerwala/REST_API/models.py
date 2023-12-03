@@ -85,7 +85,7 @@ class Wallet(models.Model):
         return f"{self.balance} Corresponding user not Found"
 
 
-class CityUser(models.Model):
+class TankerwalaUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phoneNumber = models.CharField(max_length=13, null=False)
     dp = models.ImageField(upload_to="userDP", null=True,default="default.png")
@@ -99,9 +99,17 @@ class CityUser(models.Model):
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
 
+class waterTankLevel(models.Model):
+    user = models.ForeignKey(TankerwalaUser, on_delete=models.CASCADE)
+    level = models.FloatField(null=False)
+    creationDate = models.DateTimeField(null=False)
+
+    def __str__(self):
+        return str(self.level)
+
 
 class OTP(models.Model):
-    user = models.OneToOneField(CityUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(TankerwalaUser, on_delete=models.CASCADE)
     code = models.TextField(max_length=4)
     time = models.DateTimeField(auto_now=True, auto_created=True)
     isOtpVerified = models.BooleanField(default=False)
@@ -153,8 +161,8 @@ class Ride(models.Model):
     STATUSES = ((RIDE_STARTED, "RIDE_STARTED"), (IH_ARRIVED, "DRIVER_ARRIVED"), (CANCEL_BY_RIDER, "CANCEL_BY_RIDER"),
                 (CANCEL_BY_DRIVER, "CANCEL_BY_DRIVER"),
                 (SEARCHING, "SEARCHING"), (IN_PROGRESS, "IN_PROGRESS"), (COMPLETED, "COMPLETED"))
-    driver = models.ForeignKey(CityUser, related_name="driver", on_delete=models.CASCADE, null=True, blank=True)
-    rider = models.ForeignKey(CityUser, related_name="rider", on_delete=models.CASCADE, null=False, blank=True)
+    driver = models.ForeignKey(TankerwalaUser, related_name="driver", on_delete=models.CASCADE, null=True, blank=True)
+    rider = models.ForeignKey(TankerwalaUser, related_name="rider", on_delete=models.CASCADE, null=False, blank=True)
     pickUpAddress = models.ForeignKey(Address, related_name="pickUpAddress", on_delete=models.CASCADE, null=False,
                                       blank=True)
     dropOffAddress = models.ForeignKey(Address, related_name="dropOffAddress", on_delete=models.CASCADE, null=False,
@@ -179,7 +187,7 @@ class Ride(models.Model):
 
 
 class Chatting(models.Model):
-    user = models.ForeignKey(CityUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(TankerwalaUser, on_delete=models.CASCADE)
     ride = models.ForeignKey(Ride, on_delete=models.CASCADE)
     message = models.TextField(null=False)
     date = models.DateField(auto_now=True)

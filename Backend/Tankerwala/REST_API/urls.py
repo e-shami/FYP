@@ -29,4 +29,7 @@ urlpatterns = [
     path('resetPass', views.resetPass),
     path('setNewPass', views.setNewPass),
     path('test/', views.getNearbyRides),
+    path('update-tank-level/', Views2.updateTankLevel),
+    path('update-tank-level-history/', Views2.waterTankLevelHistory),
+
 ]

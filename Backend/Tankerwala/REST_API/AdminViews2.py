@@ -31,7 +31,7 @@ def getClients(request):
     start = end - dataPerPage
 
     if data['type'] == "customers":
-        users = CityUser.objects.filter(user__is_active=True, driver_id=None)
+        users = TankerwalaUser.objects.filter(user__is_active=True, driver_id=None)
         maxPages = (users.count()/dataPerPage)+1
         users = users[start:end]
         print(users)
@@ -42,7 +42,7 @@ def getClients(request):
         })
 
     elif data['type'] == "drivers":
-        users = CityUser.objects.filter(Q(user__is_active=True), ~Q(driver_id=None))
+        users = TankerwalaUser.objects.filter(Q(user__is_active=True), ~Q(driver_id=None))
         print(users)
 
         maxPages = (users.count() / dataPerPage) + 1
@@ -70,7 +70,7 @@ def searchClient(request):
     start = end - dataPerPage
 
     if data['type'] == "customers":
-        users = CityUser.objects.filter(Q(user__is_active=True),Q(driver_id=None),
+        users = TankerwalaUser.objects.filter(Q(user__is_active=True),Q(driver_id=None),
             Q(user__first_name__icontains=query) |
             Q(user__email__icontains=query) |
             Q(phoneNumber__icontains=query)
@@ -85,7 +85,7 @@ def searchClient(request):
         })
 
     elif data['type'] == "drivers":
-        users = CityUser.objects.filter(Q(user__is_active=True),~Q(driver_id=None),
+        users = TankerwalaUser.objects.filter(Q(user__is_active=True),~Q(driver_id=None),
         Q(user__first_name__icontains=query) |
             Q(user__email__icontains=query) |
             Q(phoneNumber__icontains=query)
@@ -113,7 +113,7 @@ def getVerfiUser(request):
     end = page * dataPerPage
     start = end - dataPerPage
 
-    drivers = CityUser.objects.filter(driver_id__isApproved=False).order_by('creationDate')[start:end]
+    drivers = TankerwalaUser.objects.filter(driver_id__isApproved=False).order_by('creationDate')[start:end]
     return JsonResponse({
         "status": 200,
         "data": CityUserSerializerAdmin(drivers, many=True).data

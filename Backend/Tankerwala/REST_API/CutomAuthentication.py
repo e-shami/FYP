@@ -20,7 +20,7 @@ class CustomTokenAuthentication(TokenAuthentication):
 
         if not token.user.is_active:
             raise exceptions.AuthenticationFailed('User inactive or deleted.')
-        Otp = OTP.objects.get(user=CityUser.objects.get(user=token.user))
+        Otp = OTP.objects.get(user=TankerwalaUser.objects.get(user=token.user))
         if Otp.isOtpVerified == False:
             raise exceptions.AuthenticationFailed('Please Verify Using Otp')
         

@@ -29,7 +29,7 @@ def resetPass(request):
     try:
         data = request.data
         phone = data['phone'].strip()
-        cityUser = CityUser.objects.filter(phoneNumber=phone)
+        cityUser = TankerwalaUser.objects.filter(phoneNumber=phone)
         if cityUser.count() > 0:
             cityUser = cityUser[0]
             Otp = OTP.objects.filter(user=cityUser)
@@ -43,12 +43,12 @@ def resetPass(request):
                 newOTP = OTP(user=cityUser, isOtpVerified=False, code=otp)
                 newOTP.save()
             msg = "Hey " + cityUser.user.first_name.strip() + "!, you requested password reset. Your OTP code for " \
-                                                              "City Go " \
+                                                              "Tankerwala " \
                                                               "is " + otp + ". If that wasn't you just ignore the " \
                                                                             "msg. :) "
             print(cityUser.phoneNumber)
             print(msg)
-            # sendMsg(acc_sid=TwilioAccSID, auth_token=authToken, body=msg, sender=sender, receiver=cityUser.phoneNumber)
+            sendMsg(acc_sid=TwilioAccSID, auth_token=authToken, body=msg, sender=sender, receiver=cityUser.phoneNumber)
             token = Token.objects.get_or_create(user=cityUser.user)
             return JsonResponse({
                 'status': 200,
@@ -74,25 +74,30 @@ def login(response):
     Email = data["email"].replace("\n", "").replace("\r", "").lower().strip()
     password = data["password"].replace("\n", "").replace("\r", "").strip()
     notificationToken = data['notificationToken'].strip()
-    print("notificationToken: ", notificationToken)
+
     if Email == "" or password == "":
         return JsonResponse({
             'status': 401,
             "msg": "Email and Password required."
         }, status=404)
     print(Email, password)
-    user = User.objects.get(email=Email)
-    # user = authenticate(email=Email, password=password)
+    try:
+        user = User.objects.get(email=Email)
+    except User.DoesNotExist:
+        return JsonResponse({
+            'status': 404,
+            "msg": "User does not exists with this email"
+        }, status=404)
+    user = authenticate(username=Email, password=password)
     print(user)
     if user is None:
-
         return JsonResponse({
             'status': 404,
             "msg": "Invalid Credentials"
         }, status=404)
     else:
         token = Token.objects.get_or_create(user=user)
-        cityUser = CityUser.objects.get(user=user)
+        cityUser = TankerwalaUser.objects.get(user=user)
         cityUser.notificationToken = notificationToken
         print(notificationToken)
         cityUser.save()
@@ -106,10 +111,20 @@ def login(response):
         else:
             newOTP = OTP(user=cityUser, isOtpVerified=False, code=otp)
             newOTP.save()
-        msg = "Hey " + user.first_name.strip() + "!, Your OTP code for City Go is " + otp + ". Don't share OTP with anyone else."
+        msg = "Hey " + user.first_name.strip() + "!, Your OTP code for Tankerwala is " + otp + ". Don't share OTP with anyone else."
         print(cityUser.phoneNumber)
         print(msg)
-        # sendMsg(acc_sid=TwilioAccSID, auth_token=authToken, body=msg, sender=sender, receiver=cityUser.phoneNumber)
+        exception = sendMsg(acc_sid=TwilioAccSID, auth_token=authToken, body=msg, sender=sender, receiver=cityUser.phoneNumber)
+        if exception is not None:
+            return JsonResponse({
+                'status': 404,
+                "msg": str(exception.msg)
+            }, status=404)
+        if exception is not None:
+            return JsonResponse({
+                'status': 404,
+                "msg": str(exception.msg)
+            }, status=404)
         return JsonResponse({
             'status': 200,
             "msg": "successfully logged in",
@@ -123,7 +138,7 @@ def login(response):
 def resendOTP(request):
     print(request.user)
     user = request.user
-    cityUser = CityUser.objects.get(user=user)
+    cityUser = TankerwalaUser.objects.get(user=user)
     Otp = OTP.objects.filter(user=cityUser)
     otp = genOTP(4)
     if Otp.count() != 0:
@@ -137,7 +152,8 @@ def resendOTP(request):
     msg = "Hey " + user.first_name.strip() + "!, Your OTP code for City Go is " + otp + ". Don't share OTP with anyone else."
     print(cityUser.phoneNumber)
     print(msg + "\n")
-    # sendMsg(acc_sid=TwilioAccSID, auth_token=authToken, body=msg, sender=sender, receiver=cityUser.phoneNumber)
+    sendMsg(acc_sid=TwilioAccSID, auth_token=authToken, body=msg, sender=sender, receiver=cityUser.phoneNumber)
+
     return JsonResponse({
         'status': 200,
         "msg": "OTP Resent",
@@ -156,7 +172,7 @@ def signupAsRider(request):
         city = data["city"].replace("\n", "").replace("\r", "").strip()
         Email = data["email"].replace("\n", "").replace("\r", "").lower().strip()
         password = data["password"].replace("\n", "").replace("\r", "").strip()
-        check = CityUser.objects.filter(Q(phoneNumber=phone) | Q(user__email=Email)).count()
+        check = TankerwalaUser.objects.filter(Q(phoneNumber=phone) | Q(user__email=Email)).count()
         checkUser = User.objects.filter(email=Email).count()
         if check == 0 and checkUser == 0:
 
@@ -165,7 +181,7 @@ def signupAsRider(request):
             user.save()
             wallet = Wallet(balance=0.0)
             wallet.save()
-            newReg = CityUser(user=user, phoneNumber=phone, cityName=city, wallet=wallet)
+            newReg = TankerwalaUser(user=user, phoneNumber=phone, cityName=city, wallet=wallet)
             newReg.save()
             return JsonResponse({
                 'status': 200,
@@ -199,7 +215,7 @@ def signup(request):
         city = data["city"].replace("\n", "").replace("\r", "").strip()
         Email = data["email"].replace("\n", "").replace("\r", "").lower().strip()
         password = data["password"].replace("\n", "").replace("\r", "").strip()
-        check = CityUser.objects.filter(Q(phoneNumber=phone) | Q(user__email=Email)).count()
+        check = TankerwalaUser.objects.filter(Q(phoneNumber=phone) | Q(user__email=Email)).count()
         checkUser = User.objects.filter(email=Email).count()
         print(check)
         if check == 0 and checkUser == 0:
@@ -211,7 +227,7 @@ def signup(request):
                 user.save()
                 wallet = Wallet(balance=0.0)
                 wallet.save()
-                newReg = CityUser(user=user, phoneNumber=phone, cityName=city, wallet=wallet)
+                newReg = TankerwalaUser(user=user, phoneNumber=phone, cityName=city, wallet=wallet)
                 newReg.save()
             else:
                 carColor = data["carColor"].replace("\n", "").replace("\r", "").strip()
@@ -256,7 +272,7 @@ def signup(request):
 
                 wallet = Wallet(balance=0.0)
 
-                newReg = CityUser(user=user, phoneNumber=phone, cityName=city, wallet=wallet, driver_id=driver,
+                newReg = TankerwalaUser(user=user, phoneNumber=phone, cityName=city, wallet=wallet, driver_id=driver,
                                   dp=selfie)
                 user.save()
                 vehicle.save()
@@ -300,7 +316,7 @@ def anyView(request):
 @authentication_classes([CustomTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def getAllRides(request):
-    cityUser = CityUser.objects.get(user=request.user, )
+    cityUser = TankerwalaUser.objects.get(user=request.user, )
     data = request.data
     if data['type'] == "asDriver":
         rides = Ride.objects.filter(driver=cityUser, rideStatus=Ride.COMPLETED)
@@ -322,7 +338,7 @@ def getAllRides(request):
 @authentication_classes([CustomTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def getProfileDetails(request):
-    cityUser = CityUser.objects.get(user=request.user)
+    cityUser = TankerwalaUser.objects.get(user=request.user)
     if cityUser.driver_id is not None:
         vehicle = cityUser.driver_id.vehicle
         vehicle = VehicleSerializer(vehicle).data
@@ -348,7 +364,7 @@ def getProfileDetails(request):
 def updateDP(request):
     try:
         dp = request.FILES.get('dp')
-        cityUser = CityUser.objects.get(user=request.user)
+        cityUser = TankerwalaUser.objects.get(user=request.user)
         cityUser.dp = dp
         cityUser.save()
         return JsonResponse({
@@ -436,7 +452,7 @@ def cancelRide(request):
 @permission_classes([IsAuthenticated])
 def dashboard(request):
     try:
-        cityUser = CityUser.objects.get(user=request.user)
+        cityUser = TankerwalaUser.objects.get(user=request.user)
         data = request.data
         now = datetime.date.today()
         week = now - datetime.timedelta(days=7)
@@ -573,7 +589,7 @@ def verifyOTP(request):
     data = request.POST
     print(data);
     gotOTP = data['OTP']
-    cityUser = CityUser.objects.get(user=request.user)
+    cityUser = TankerwalaUser.objects.get(user=request.user)
     if cityUser is not None:
         checkOTP = OTP.objects.filter(code=gotOTP, user=cityUser)
         if checkOTP.count() == 0:
@@ -631,7 +647,7 @@ def bookRide(request):
     try:
         data = request.data
         user = request.user
-        cityUser = CityUser.objects.get(user=user)
+        cityUser = TankerwalaUser.objects.get(user=user)
         newPickAddress = Address(description=data['pickupAddress']['title'], latitude=data['pickupAddress']['lat']
                                  , longitude=data['pickupAddress']['long'])
         newPickAddress.save()
@@ -720,14 +736,14 @@ def changePhone(request):
         data = request.data
         print(data)
         phone = data['phone'].strip()
-        check = CityUser.objects.filter(phoneNumber=phone)
+        check = TankerwalaUser.objects.filter(phoneNumber=phone)
         if check.count() > 0:
             return JsonResponse({
                 'status': 401,
                 "msg": phone + " is linked to another account",
             })
         else:
-            cityUser = CityUser.objects.get(user=request.user)
+            cityUser = TankerwalaUser.objects.get(user=request.user)
             cityUser.phoneNumber = phone
             cityUser.save()
             return JsonResponse({
@@ -757,7 +773,7 @@ def checkPromo(request):
         print(promo)
         if promo.count() > 0:
             promo = promo[0]
-            cityUser = CityUser.objects.get(user=request.user)
+            cityUser = TankerwalaUser.objects.get(user=request.user)
             rides = Ride.objects.filter(Coupon=promo, rider=cityUser).count()
             if rides >= promo.NoOfRides:
                 return JsonResponse({
@@ -840,7 +856,7 @@ def ChangeCity(request):
         name = data['name'].strip()
         user = request.user
 
-        cityUser = CityUser.objects.get(user=user)
+        cityUser = TankerwalaUser.objects.get(user=user)
         cityUser.cityName = name
         cityUser.save()
         return JsonResponse({
@@ -884,7 +900,7 @@ def getNearbyRides(request):
     print(request.data)
     lat = float(request.data["lat"])
     long = float(request.data["long"])
-    user = CityUser.objects.get(user=request.user)
+    user = TankerwalaUser.objects.get(user=request.user)
     vehicleType = user.driver_id.vehicle.vehicleType
     # get nearest 10 rides
     rides = Ride.objects.filter(rideStatus=Ride.SEARCHING, preferredRideType=vehicleType)[:10]
