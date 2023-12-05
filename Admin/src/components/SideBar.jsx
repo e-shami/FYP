@@ -38,7 +38,7 @@ const SideBar = ({visible, handleVisible}) => {
                     <SLinks manageClick={handleVisible} icon={Verifications} text={'Verifications'}
                             to={'/Verifications'} verifications={verifications}/>
                     <SLinks manageClick={handleVisible} icon={Settings} text={'Settings'} to={'/Settings'}/>
-                    {/* <SLinks manageClick={handleVisible} icon={Coupons} text={'Coupons'} to={'/Coupons'}/> */}
+                    <SLinks manageClick={handleVisible} icon={Coupons} text={'Coupons'} to={'/Coupons'}/>
                     <SLinks manageClick={handleVisible} icon={Notification} text={'Notifications'}
                             to={'/Notifications'}/>
                     <SLinks  manageClick={handleVisible} icon={Signout} text={'SignOut'} to={'/SignOut'} color={true}/>

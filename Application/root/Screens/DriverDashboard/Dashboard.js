@@ -5,9 +5,8 @@ import {
   View,
   ScrollView,
   RefreshControl,
-  Pressable, Dimensions,
+  Pressable, Dimensions
 } from "react-native";
-import RideHistoryCard from "../../Components/RideHistoryCard";
 import React, {
   useCallback,
   useContext,
@@ -25,20 +24,30 @@ import { SwitchUserContext } from "../../Context/SwitchUserContext";
 import MapPickUpDropOff from "../Maps/MapPickUpDropOff";
 import {LineChart} from "react-native-chart-kit";
 
+
 export default function Dashboard(props) {
   let appMode = useContext(SwitchUserContext);
-  const [data, setData] = useState({
+  const [driverData, setDriverData] = useState({
     wallet: 0.0,
     TRT: 0,
     DC: 0,
   });
+
+  const [customerData, setCustomerData] = useState({
+    totalCapacity: 0,
+    lastReading: 0,
+    estimatedRemainingTime: "",
+  });
+
   const imageSize = 50;
   const CirlceSize = 12;
   const [rating, setRating] = useState(0);
-const [graphData, setGraphData] = useState({
-  labels:[1],
+
+  const [graphData, setGraphData] = useState({
+    labels:[1],
     datasets:[{data:[]}]
-})
+  })
+
   const styles2 = StyleSheet.create({
     conatiner: {
       flex: 1,
@@ -51,6 +60,7 @@ const [graphData, setGraphData] = useState({
     image: {
       padding: 15,
       borderRadius: 15,
+      paddingVertical: 10,
       flex: 1,
       justifyContent: "space-between",
       paddingVertical: 20,
@@ -161,27 +171,57 @@ const [graphData, setGraphData] = useState({
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
   const [refreshing, setRefreshing] = React.useState(false);
-  const [filters, setFilters] = useState([
+  const filters = [
     { label: "Last 30 mins", value: "LAST_30_MIN" },
     { label: "Last 24 hrs", value: "LAST_24_HOURS" },
     { label: "Last 7 days", value: "LAST_7_DAYS" },
     { label: "Last 30 days", value: "LAST_30_DAYS" },
-    ]);
+    ];
   const [filterType, setFilterType] = useState("LAST_30_MIN");
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     getLevelHistory(filterType);
+    getDashboard();
     wait(2000).then(() => setRefreshing(false));
   }, []);
-  useEffect(() => {
-    setRefreshing(true);
-    setLoading(true)
-    getLevelHistory(filterType);
-    wait(2000).then(() => setRefreshing(false));
-  }, [filterType]);
+  async function getDashboard() {
+    let type = "";
+    if (appMode.SwitchUserDefaultData.isUserDriver) {
+      type = "asDriver";
+    } else {
+      type = "asRider";
+    }
+    let data = {
+      type: type,
+    };
+
+    await fetch(ApiUrl.dashboard, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Token " + session.SessionData.Token,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status <= 200) {
+          setDriverData(data.msg);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          setErrors([data.msg]);
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+
+        setErrors(["Network Error" + error]);
+      });
+  }
 
   const translateIntoGraphData = (data) => {
-    console.log(data)
     let labels = [];
     let datasets = [];
     if(data[0]?.hour){
@@ -218,9 +258,8 @@ const [graphData, setGraphData] = useState({
     setGraphData(tempData);
 
   }
-  async function getLevelHistory(filterType="LAST_30_MIN") {
-    console.log(filterType)
 
+  async function getLevelHistory(filterType="LAST_30_MIN") {
 
     await fetch(`${ApiUrl.getLevelHistory}?filterType=${filterType}`, {
       method: "GET",
@@ -228,26 +267,26 @@ const [graphData, setGraphData] = useState({
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: "Token " + session.SessionData.Token,
-      }
+      }, 
     })
       .then((response) => response.json())
-      .then((DATA) => {
-        if (DATA.status <= 200) {
-          console.log(DATA)
-         if(filterType!== "LAST_30_MIN"){
-              let temp = DATA;
-              temp.estimatedRemainingTime = data.estimatedRemainingTime;
-           console.log("TEMP",temp)
-              setData(temp);
+      .then((data) => {
+        if (data.status <= 200) {
+          console.log("data is: ", data);
+         if(filterType !== "LAST_30_MIN"){
+              let temp = data;
+              temp.estimatedRemainingTime = customerData.estimatedRemainingTime;
+              setCustomerData(temp);
+              console.log("temp data is: ", temp);
          }else{
-              setData(DATA);
+              setCustomerData(data);
          }
-            translateIntoGraphData(DATA.msg)
+          translateIntoGraphData(data.msg)
 
           setLoading(false);
         } else {
           setLoading(false);
-          setErrors([DATA.msg]);
+          setErrors([data.msg]);
         }
       })
       .catch(function (error) {
@@ -258,7 +297,9 @@ const [graphData, setGraphData] = useState({
   }
   const [errors, setErrors] = useState([]);
   const [isLoadingOpen, setLoading] = useState(true);
+  const session = useContext(SessionContext);
   const pickerRef = useRef();
+
   function open() {
     pickerRef.current?.focus();
   }
@@ -267,8 +308,8 @@ const [graphData, setGraphData] = useState({
     pickerRef.current?.blur();
   }
 
-  const session = useContext(SessionContext);
   useEffect(() => {
+    getDashboard();
     getLevelHistory("LAST_30_MIN");
   }, []);
 
@@ -285,7 +326,6 @@ const [graphData, setGraphData] = useState({
           { height: appMode.SwitchUserDefaultData.isUserDriver ? 200 : 350 },
         ]}
       >
-        {/* <ImageBackground source={require("../../../assets/img/Rectangle1.png")}  resizeMode="center" resizeMethod="auto" > */}
         <Text
           style={{
             color: "rgba(255, 255, 255, 0.71)",
@@ -307,7 +347,7 @@ const [graphData, setGraphData] = useState({
               marginTop: 30,
             }}
           >
-            {parseFloat(data.wallet).toFixed(2)} Rs
+            {parseFloat(driverData.wallet).toFixed(2)} Rs
           </Text>
         ) : (
           <>
@@ -341,11 +381,11 @@ const [graphData, setGraphData] = useState({
                     textDecorationLine: "underline",
                   }}
                 >
-                  {data.totalCapacity}         L
+                  {customerData.totalCapacity}         L
                 </Text>
               </View>
-
-
+              
+              
               <View
                 style={{
                   justifyContent: "space-between",
@@ -374,7 +414,7 @@ const [graphData, setGraphData] = useState({
                     textDecorationLine: "underline",
                   }}
                 >
-                  {data.lastReading}        %
+                  {customerData.lastReading}        %
                 </Text>
               </View>
 
@@ -407,7 +447,7 @@ const [graphData, setGraphData] = useState({
                     textDecorationLine: "underline",
                   }}
                 >
-                  {data.estimatedRemainingTime}        Hrs
+                  {customerData.estimatedRemainingTime}        Hrs
                 </Text>
               </View>
             </View>
@@ -426,7 +466,6 @@ const [graphData, setGraphData] = useState({
         {/* </ImageBackground> */}
       </View>
 
-
       <View
         style={{
             flexDirection: "row",
@@ -440,7 +479,8 @@ const [graphData, setGraphData] = useState({
                 fontWeight: "500",
             }}
             >Filter By</Text>
-        <Pressable
+
+<Pressable
             onPress={() => {
               open()
             }}
@@ -456,8 +496,8 @@ const [graphData, setGraphData] = useState({
               ref = {pickerRef}
               selectedValue={filterType}
               onValueChange={(itemValue, itemIndex) => {
-
                 setFilterType(itemValue)
+                getLevelHistory(itemValue)
               }
 
               }>
@@ -468,29 +508,15 @@ const [graphData, setGraphData] = useState({
           </Picker>
         </Pressable>
       </View>
-      {graphData.labels.length> 0 && data?.msg?.length>0
+
+      {graphData.labels.length> 0 && customerData?.msg?.length>0
           ? (
 
           <LineChart
-              // data={{
-              //   labels: ["January", "February", "March", "April", "May", "June"],
-              //   datasets: [
-              //     {
-              //       data: [
-              //         Math.random() * 100,
-              //         Math.random() * 100,
-              //         Math.random() * 100,
-              //         Math.random() * 100,
-              //         Math.random() * 100,
-              //         Math.random() * 100
-              //       ]
-              //     }
-              //   ]
-              // }}
               data={{
                 labels: graphData?.labels? graphData.labels:["January", "February", "March", "April", "May", "June"],
                 datasets: graphData.datasets? graphData.datasets:[{
-                  data: [
+                  datsa: [
                     Math.random() * 100,
                     Math.random() * 100,
                     Math.random() * 100,
@@ -582,7 +608,7 @@ const [graphData, setGraphData] = useState({
                 fontWeight: "800",
               }}
             >
-              {parseInt(data.TRT)}
+              {parseInt(driverData.TRT)}
             </Text>
             <Text
               style={{
@@ -625,7 +651,7 @@ const [graphData, setGraphData] = useState({
                   fontFamily: "Poppins_400Regular",
                 }}
               >
-                {parseFloat(data.DC).toFixed(1)}
+                {parseFloat(driverData.DC).toFixed(1)}
               </Text>
               <Text
                 style={{

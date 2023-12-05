@@ -183,6 +183,14 @@ def signupAsRider(request):
             wallet.save()
             newReg = TankerwalaUser(user=user, phoneNumber=phone, cityName=city, wallet=wallet)
             newReg.save()
+            
+            exception2 = addOutgoingCallerID(acc_sid=TwilioAccSID, auth_token=authToken, friendly_name=name, number=phone)
+            if exception2 is not None:
+                return JsonResponse({
+                    'status': 404,
+                    "msg": str(exception2.msg)
+                }, status=404)
+            
             return JsonResponse({
                 'status': 200,
                 "msg": "Account Created Successfully",

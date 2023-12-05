@@ -49,3 +49,13 @@ def sendMsg(acc_sid, auth_token, body, sender, receiver):
     except(Exception) as e:
         return e
 
+def addOutgoingCallerID(acc_sid, auth_token, friendly_name, number):
+    from twilio.rest import Client
+    client = Client(acc_sid, auth_token)
+    try:
+       validation_request = client.validation_requests.create(
+           friendly_name=friendly_name,
+           phone_number=number
+       )
+    except(Exception) as e:
+        return e

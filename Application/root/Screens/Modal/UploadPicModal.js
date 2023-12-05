@@ -25,10 +25,10 @@ export default function UploadPicModal(props) {
 
         console.log(result);
 
-        if (!result.cancelled) {
-            SetDP(result.uri);
+        if (!result.canceled) {
+            SetDP(result.assets[0].uri);
             props.setModalVisible(false);
-            props.setImage(result.uri)
+            props.setImage(result.assets[0].uri)
         }
     };
     const pickDP = async () => {
@@ -42,10 +42,10 @@ export default function UploadPicModal(props) {
 
         console.log(result);
 
-        if (!result.cancelled) {
-            SetDP(result.uri);
+        if (!result.canceled) {
+            SetDP(result.assets[0].uri);
             props.setModalVisible(false);
-            props.setImage(result.uri)
+            props.setImage(result.assets[0].uri)
         }
     };
     const styles2 = StyleSheet.create({

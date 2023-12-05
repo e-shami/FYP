@@ -102,7 +102,7 @@ function MainApp() {
                         <Route path="/Rides" element={<Rides/>}/>
                         <Route path="/History" element={<History/>}/>
                         <Route path="/Settings" element={<Settings/>}/>
-                        {/* <Route path="/Coupons" element={<Coupons/>}/> */}
+                        <Route path="/Coupons" element={<Coupons/>}/>
                         <Route path="/Notifications" element={<Notifications/>}/>
                         <Route path="/Signout" element={<SignOut/>}/>
                         <Route path="/Verifications" element={<Verifications/>}/>   

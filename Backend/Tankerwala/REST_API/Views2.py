@@ -84,7 +84,10 @@ def GenrateLastMonthDataForEverMin(userId):
 @permission_classes([IsAuthenticated])
 def waterTankLevelHistory(request):
     filterType = request.GET.get("filterType", "LAST_30_MIN")
-    all_records = waterTankLevel.objects.filter(user__user=request.user)
+    all_records = waterTankLevel.objects.filter(user__user=request.user.id)
+    print(request.user.id)
+    print(filterType)
+    print("all_records: ", all_records)
     lastReading = all_records.order_by('-creationDate')[0]
     estimatedRemainingTime = "24+"
     record = []
@@ -142,7 +145,7 @@ def waterTankLevelHistory(request):
             tankeLevel=Avg('level')
         ).order_by('-day')
         record = list(all_records)
-
+    
     return JsonResponse({
         "status": 200,
         "msg": record,
@@ -159,7 +162,7 @@ def updateTankLevel(request):
     userId = data.get("userId", None)
     distanceInCm = float(data.get("distanceInCm", None))
     try:
-        user = TankerwalaUser.objects.get(id=userId)
+        user = TankerwalaUser.objects.get(user=userId)
         myWaterTankLevel = waterTankLevel()
         myWaterTankLevel.user = user
         myWaterTankLevel.level = distanceInCm
@@ -167,10 +170,10 @@ def updateTankLevel(request):
         myWaterTankLevel.save()
 
         try:
-            if myWaterTankLevel.level > 40 and user.lastWaterLevelNotification is None:
+            if myWaterTankLevel.level < 40 and user.lastWaterLevelNotification is None:
                 sendNotification(user.notificationToken, "Water Tank Level", "Water tank is level is low.")
                 user.lastWaterLevelNotification = datetime.datetime.now()
-            elif myWaterTankLevel.level > 40 and user.lastWaterLevelNotification < datetime.datetime.now() - datetime.timedelta(
+            elif myWaterTankLevel.level < 40 and user.lastWaterLevelNotification < datetime.datetime.now() - datetime.timedelta(
                     minutes=10):
                 sendNotification(user.notificationToken, "Water Tank Level", "Water tank is level is low.")
                 user.lastWaterLevelNotification = datetime.datetime.now()
