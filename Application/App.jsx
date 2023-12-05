@@ -2,6 +2,7 @@ import {StatusBar, StyleSheet, Text, View} from 'react-native';
 import MainApp from "./root/Screens/MainApp";
 import SessionProvider from "./root/Context/SessionContext";
 import NotificationProvider from "./root/Context/NotificationContext";
+import 'expo-dev-client';
 
 
 export default function App() {
