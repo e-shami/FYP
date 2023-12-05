@@ -114,17 +114,13 @@ def login(response):
         msg = "Hey " + user.first_name.strip() + "!, Your OTP code for Tankerwala is " + otp + ". Don't share OTP with anyone else."
         print(cityUser.phoneNumber)
         print(msg)
-        exception = sendMsg(acc_sid=TwilioAccSID, auth_token=authToken, body=msg, sender=sender, receiver=cityUser.phoneNumber)
-        if exception is not None:
-            return JsonResponse({
-                'status': 404,
-                "msg": str(exception.msg)
-            }, status=404)
-        if exception is not None:
-            return JsonResponse({
-                'status': 404,
-                "msg": str(exception.msg)
-            }, status=404)
+        # exception = sendMsg(acc_sid=TwilioAccSID, auth_token=authToken, body=msg, sender=sender, receiver=cityUser.phoneNumber)
+        # if exception is not None:
+        #     return JsonResponse({
+        #         'status': 404,
+        #         "msg": str(exception.msg)
+        #     }, status=404)
+        
         return JsonResponse({
             'status': 200,
             "msg": "successfully logged in",

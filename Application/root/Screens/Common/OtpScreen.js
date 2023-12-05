@@ -132,7 +132,7 @@ export default function OtpScreen(props) {
         logo: {
             fontWeight: "500",
             fontSize: 16,
-            resizeMode: 'contain',
+            // resizeMode: 'cover'
         },
         main: {
             flex: 1,

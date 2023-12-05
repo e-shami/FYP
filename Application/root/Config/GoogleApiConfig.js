@@ -1,6 +1,4 @@
-
-
- const GOOGLE_MAP_API_KEY = "AIzaSyBSXECJBiw1cTjkx0kxV_1ReIlV1DlRVL8";
+ const GOOGLE_MAP_API_KEY = "AIzaSyCU7iTP4vuhEtxgXJzUaDaIUP9q9yAzGHE";
 
 
  export  default GOOGLE_MAP_API_KEY;
