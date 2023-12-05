@@ -179,10 +179,12 @@ export default function Dashboard(props) {
   ];
   const [filterType, setFilterType] = useState("LAST_30_MIN");
   const onRefresh = useCallback(() => {
-    setFilterType("LAST_30_MIN");
     setRefreshing(true);
-    getLevelHistory(filterType);
     getDashboard();
+    if (!appMode.SwitchUserDefaultData.isUserDriver) {
+      getLevelHistory(filterType);
+      setFilterType("LAST_30_MIN");
+    }
     wait(2000).then(() => setRefreshing(false));
   }, []);
   async function getDashboard() {
@@ -306,7 +308,9 @@ export default function Dashboard(props) {
 
   useEffect(() => {
     getDashboard();
-    getLevelHistory("LAST_30_MIN");
+    if (!appMode.SwitchUserDefaultData.isUserDriver) {
+      getLevelHistory("LAST_30_MIN");
+    }
   }, []);
 
   return (
