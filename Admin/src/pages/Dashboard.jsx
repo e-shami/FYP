@@ -224,7 +224,7 @@ const   Dashboard = () => {
                     <div className="flex flex-col  h-[21.438rem] items-center overflow-y-auto">
                         {payments.length === 0 ? handleLoaderShowing() : payments.map((item, index) => (
                             <div className="w-full shadow-[0px_13px_21px_#0000000D]">
-                                <SubcribeCard name={item.user.first_name + " " + item.user.last_name}
+                                <SubcribeCard key={index} name={item.user.first_name + " " + item.user.last_name}
                                               email={item.user.email} source={ApiUrls.dp + item.dp}/>
                             </div>
                         ))}
@@ -242,8 +242,8 @@ const   Dashboard = () => {
                             <div
                                 className="absolute top-[100%] left-0 bg-[#2F2F2F] text-[#FFFFF] w-[6.625rem] max-w-[6.625rem] min-w-[6.625rem] z-[+100000000000000000000000000000]">
                                 <ul className="z-[+100]">
-                                    {dropOption.map((option) => (
-                                        <li
+                                    {dropOption.map((option, index) => (
+                                        <li key={index}
                                             className="border-b  border-[#FFFFFF] p-[0.563rem]  "
                                             onClick={() => {
                                                 setDropSelected(option);

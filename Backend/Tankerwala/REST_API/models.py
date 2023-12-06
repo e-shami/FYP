@@ -53,7 +53,7 @@ class Vehicle(models.Model):
 
     def __str__(self):
         if hasattr(self, 'driver'):
-            return self.driver.cityuser.user.email
+            return self.driver.tankerwalauser.user.email
         return f"{self.numberPlate} Corresponding user not Found"
 
 
@@ -70,8 +70,8 @@ class Driver(models.Model):
     creationDate = models.DateTimeField(auto_created=True, auto_now=True)
 
     def __str__(self):
-        if hasattr(self, 'cityuser'):
-            return self.cityuser.user.email
+        if hasattr(self, 'tankerwalauser'):
+            return self.tankerwalauser.user.email
         return f"{self.cnic} Corresponding user not Found"
 
 
@@ -80,8 +80,8 @@ class Wallet(models.Model):
     lastUpdate = models.DateTimeField(auto_created=True, auto_now=True)
 
     def __str__(self):
-        if hasattr(self, 'cityuser'):
-            return self.cityuser.user.email
+        if hasattr(self, 'tankerwalauser'):
+            return self.tankerwalauser.user.email
         return f"{self.balance} Corresponding user not Found"
 
 

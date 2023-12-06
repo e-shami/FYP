@@ -79,7 +79,7 @@ const Notifications = () => {
                     {/* Items Div */}
                     <div className='flex-1 max-h-full   pl-12'>
                         {noti.length > 0 ? noti.map((item, index) => (
-                                <SettingListItem iconColor={"#232323"} icon={getNoti(item)} text={<>{item.log}</>}
+                                <SettingListItem key={index} iconColor={"#232323"} icon={getNoti(item)} text={<>{item.log}</>}
                                                         time={item.DateTime}/>
                         )) : <div className='flex flex-1 flex-col justify-center items-center'>
                             <p className='font-Poppins font-medium text-2xl'>No Notifications</p>

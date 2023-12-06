@@ -126,12 +126,10 @@ export default function SelectRide(props) {
             body: JSON.stringify(data)
         }).then(response => response.json()
         ).then(data => {
-
-
-            if (data.status <= 200) {
-
-
+            console.log("data: ", data)
+            if (data.status == 200) {
                 setPromoResponse(parseFloat(data.msg))
+                console.log(data.msg)
 
                 setTimeout(()=>{
                     setLoading(false)

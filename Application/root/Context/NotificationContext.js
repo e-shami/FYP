@@ -50,7 +50,6 @@ export default function NotificationProvider({children}) {
 
             await AsyncStorage.setItem('notificationData',JSON.stringify(data))
 
-
         } catch (e) {
             console.log("Couldn't save Notification Data")
         }

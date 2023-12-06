@@ -156,6 +156,7 @@ const Verifications = () => {
                         <ArrowBackIosIcon/>
                     </div>
                     Details
+                    
                 </div>
                 {Credentials !== -1 ?
                     < VerificationCard

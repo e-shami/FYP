@@ -230,6 +230,7 @@ export default function LoginScreen(props) {
                             keyboardType='email-address'
                             textContentType='emailAddress' 
                             autoComplete='email'
+                            autoCapitalize='none'
                             returnKeyType='next'
                             underlineColorAndroid="transparent"
                         />

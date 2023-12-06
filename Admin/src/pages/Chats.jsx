@@ -58,7 +58,7 @@ const Chats = ({setChat,id}) => {
                         <div className="w-full flex-1 flex items-center justify-center px-[128px] mb-6">
                         <div className="flex-1 h-[1px] bg-[#e5e7eb]"/>
                         <div
-                            className="w-[6.25rem] text-center font-Poppins font-normal text-[0.938rem] leading-[22.496px]">
+                            className="w-[6.25rem] text-center font-Poppins font-normal text-[0.938rem] lg:text-[1.5rem] leading-[22.496px]">
                             Today
                         </div>
                         <div className="flex-1 h-[1px] bg-[#e5e7eb]"/>

@@ -40,16 +40,16 @@ const ProgressCard = ({ id,index, done, pickup, dropoff,groupid, touchable = fal
             </div>
           </div>
           <div className="flex flex-col max-w-[65%] ml-2">
-            <p className="whitespace-nowrap	 text-[0.813rem] font-[400] text-[#2F2F2F80] leading-[1.219rem]">
-              Pickup
+            <p className="whitespace-nowrap	 text-[0.813rem] lg:text-[1rem] font-[400] text-[#2F2F2F80] leading-[1.219rem]">
+              Filling
             </p>
             <Tooltip title={pickup}>
               <p className="font-Poppins text-[1rem] font-[400] text-[#2F2F2F] leading-[1.5rem] overflow-hidden text-ellipsis line-clamp-1">
                 {pickup}
               </p>
             </Tooltip>
-            <p className="whitespace-nowrap	text-[0.813rem] font-[400] text-[#2F2F2F80] leading-[1.219rem]">
-              Dropoff
+            <p className="whitespace-nowrap	text-[0.813rem] lg:text-[1rem] font-[400] text-[#2F2F2F80] leading-[1.219rem]">
+              Delivery
             </p>
             <Tooltip title={dropoff}>
               <p className="font-Poppins text-[1rem] font-[400] text-[#2F2F2F] leading-[1.5rem] overflow-hidden text-ellipsis line-clamp-1">

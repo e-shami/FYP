@@ -80,6 +80,7 @@ export default function SignUpPageTwo(props) {
     function close() {
         pickerRef.current.blur();
     }
+    const [vehicleYearInputRef, licensePlateInputRef] = Array.from({ length: 2 }, () => React.useRef());
 
     return (
         <BaseRegistration errors={errors} navigation={props.navigation} setErrors={setErrors} page={2} onPress={() => {
@@ -118,37 +119,50 @@ export default function SignUpPageTwo(props) {
                     >
 
                         {VehicleType.length === 0 ? <Picker.Item label="Vehicle Type" value=""/> : null}
-                        <Picker.Item label="Average Size - EXPRESS" value="Average Size"/>
-                        <Picker.Item label="Maxed Out - VALUED" value="Maxed Out"/>
+                        <Picker.Item label="Half Tanker - EXPRESS" value="Half"/>
+                        <Picker.Item label="Full Tanker - Premium" value="Full"/>
                     </Picker>
                 </View>
                 <View style={styles.InputSection}>
                     <MaterialCommunityIcons name="car-side" size={24} color="black" />
                     <TextInput
                         style={styles.input}
-                        placeholder="Vehicle Company"
+                        placeholder="Tanker's Associated Company"
                         onChangeText={(e) => {
                             UserData.addEntry({vehicleCompany: e});
                         }}
                         value={UserData.DriverSignUpData.vehicleCompany}
                         underlineColorAndroid="transparent"
+                        maxLength={32}
+                        onSubmitEditing={() => {
+                            vehicleYearInputRef.current.focus();
+                        }}
+                        returnKeyType="next"
                     />
                 </View>
                 <View style={styles.InputSection}>
                     <MaterialCommunityIcons name="steering" size={24} color="black"/>
                     <TextInput
+                        ref={vehicleYearInputRef}
                         style={styles.input}
                         placeholder="Vehicle Year"
+                        maxLength={4}
+                        keyboardType="numeric"
                         onChangeText={(e) => {
                             UserData.addEntry({vehicleYear: e});
                         }}
                         value={UserData.DriverSignUpData.vehicleYear}
                         underlineColorAndroid="transparent"
+                        onSubmitEditing={() => {
+                            licensePlateInputRef.current.focus();
+                        }}
+                        returnKeyType="next"
                     />
                 </View>
                 <View style={styles.InputSection}>
                     <MaterialCommunityIcons name="numeric" size={24} color="black"/>
                     <TextInput
+                        ref={licensePlateInputRef}
                         style={styles.input}
                         placeholder="License Plate"
                         onChangeText={(e) => {
@@ -156,6 +170,9 @@ export default function SignUpPageTwo(props) {
                         }}
                         value={UserData.DriverSignUpData.licensePlate}
                         underlineColorAndroid="transparent"
+                        maxLength={8}
+                        keyboardType="name-phone-pad"
+                        returnKeyType="done"
                     />
                 </View>
                 <View style={styles.InputSection}>

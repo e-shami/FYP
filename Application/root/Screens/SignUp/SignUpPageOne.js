@@ -116,6 +116,8 @@ export default function SignUpPageOne(props) {
         PostData();
     }
     const [isLoadingOpen, setLoading] = useState(false);
+    const [mailInputRef, passwordInputRef, phoneInputRef, cityInputRef] = Array.from({ length: 4 }, () => React.useRef());
+
 
     return (
 
@@ -158,12 +160,18 @@ export default function SignUpPageOne(props) {
                         style={styles.input}
                         placeholder="Name"
                         underlineColorAndroid="transparent"
+                        maxLength={32}
+                        onSubmitEditing={() => {
+                            mailInputRef.current.focus();
+                        }}
+                        returnKeyType="next"
                     />
 
                 </View>
                 <View style={styles.InputSection}>
                     <Entypo name="mail" size={24} color="black"/>
                     <TextInput
+                        ref={mailInputRef}
                         onChangeText={(e) => {
 
                             UserData.addEntry({email: e});
@@ -174,11 +182,16 @@ export default function SignUpPageOne(props) {
                         keyboardType={"email-address"}
                         underlineColorAndroid="transparent"
                         autoCapitalize="none"
+                        onSubmitEditing={() => {
+                            passwordInputRef.current.focus();
+                        }}
+                        returnKeyType="next"
                     />
                 </View>
                 <View style={styles.InputSection}>
                     <MaterialCommunityIcons name="form-textbox-password" size={24} color="black"/>
                     <TextInput
+                        ref={passwordInputRef}
                         style={styles.input}
                         onChangeText={(e) => {
 
@@ -188,14 +201,19 @@ export default function SignUpPageOne(props) {
                         placeholder="Password"
                         secureTextEntry={true}
                         underlineColorAndroid="transparent"
+                        onSubmitEditing={() => {
+                            phoneInputRef.current.focus();
+                        }}
+                        returnKeyType="next"
                     />
 
                 </View>
                 <View style={styles.InputSection}>
                     <Foundation name="telephone" size={24} color="black"/>
                     <TextInput
+                        ref={phoneInputRef}
                         style={[styles.input, {marginLeft: 15}]}
-                        placeholder="Phone no"
+                        placeholder="Phone no [+923xxxxxxxxx]"
                         keyboardType="phone-pad"
                         underlineColorAndroid="transparent"
                         onChangeText={(e) => {
@@ -203,12 +221,17 @@ export default function SignUpPageOne(props) {
                             UserData.addEntry({phoneNo: e});
                         }}
                         value={UserData.DriverSignUpData.phoneNo}
-
+                        maxLength={13}
+                        onSubmitEditing={() => {
+                            cityInputRef.current.focus();
+                        }}
+                        returnKeyType="next"
                     />
                 </View>
                 <View style={styles.InputSection}>
                     <FontAwesome5 name="city" size={24} color="black"/>
                     <TextInput
+                        ref={cityInputRef}
                         style={[styles.input, {marginLeft: 15}]}
                         placeholder="City"
                         underlineColorAndroid="transparent"
@@ -217,7 +240,8 @@ export default function SignUpPageOne(props) {
                             UserData.addEntry({city: e});
                         }}
                         value={UserData.DriverSignUpData.city}
-
+                        maxLength={16}
+                        returnKeyType="done"
                     />
                 </View>
             </View>

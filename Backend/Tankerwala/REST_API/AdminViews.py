@@ -194,8 +194,11 @@ def getVerfiUser(request):
 @authentication_classes([AdminTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def GetALLChats(request, id):
+    print("GetALLChats being called")
+    print("id: ", id)
     ride = Ride.objects.get(id=id)
     chats = Chatting.objects.filter(ride=ride)
+    print("chats: ", chats)
     messages = []
     for chat in chats:
         messages.append({
@@ -351,10 +354,13 @@ def changeDp(request):
 @authentication_classes([AdminTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def notifications(request):
+    print("notifications being called")
     A = CityAdminUser.objects.get(user=request.user)
+    print(request.user)
 
     if A.isNotification:
         logs = Logs.objects.all().order_by("-DateTime")[:30]
+        print("logs getting so far: ", logs)
     else:
         logs = []
         logs.append(Logs(logType=Logs.OTHER, log="Notifications are off", id=1, DateTime="-T-"))
@@ -372,6 +378,7 @@ def sendCouponNotifications():
     coupon = Coupon.objects.get(id=int(couponID))
     print(coupon)
     cityUsers = TankerwalaUser.objects.filter(user__is_active=True)
+    print(cityUsers)
     title = f"Enjoy {coupon.discount}% off!!"
     Msg = f"You have got a new Coupon : '{coupon.Code}'\nYou can use this code for {coupon.NoOfRides} ride(s).\nEnjoy discounts :D"
     for cityUser in cityUsers:

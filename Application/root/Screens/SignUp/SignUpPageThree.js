@@ -12,6 +12,7 @@ import {RiderModeSignUpContext} from "../../Context/RiderModeSignUpContext";
 export default function SignUpPageThree(props) {
     const [errors, setErrors] = useState([]);
     const UserData = useContext(RiderModeSignUpContext);
+    const driversLicenseInputRef = React.useRef();
 
     const styles = StyleSheet.create({
         container: {
@@ -77,17 +78,26 @@ export default function SignUpPageThree(props) {
                     <AntDesign name="idcard" size={24} color="black"/>
                     <TextInput
                         style={styles.input}
+                        keyboardType="numeric"
+                        maxLength={13}
                         placeholder="Nation ID Card No."
                         onChangeText={(e) => {
                             UserData.addEntry({NationIdCardNo: e});
                         }}
                         value={UserData.DriverSignUpData.NationIdCardNo}
                         underlineColorAndroid="transparent"
+                        onSubmitEditing={() => {
+                            driversLicenseInputRef.current.focus();
+                        }}
+                        returnKeyType="next"
                     />
                 </View>
                 <View style={styles.InputSection}>
                     <MaterialCommunityIcons name="license" size={24} color="black"/>
                     <TextInput
+                        ref={driversLicenseInputRef}
+                        keyboardType="name-phone-pad"
+                        maxLength={16}
                         style={styles.input}
                         placeholder="Driver's License"
                         onChangeText={(e) => {
@@ -95,6 +105,7 @@ export default function SignUpPageThree(props) {
                         }}
                         value={UserData.DriverSignUpData.DriversLicense}
                         underlineColorAndroid="transparent"
+                        returnKeyType="done"
                     />
                 </View>
             </View>

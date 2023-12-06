@@ -97,8 +97,8 @@ export default function UploadPic(props) {
 
         console.log(result);
 
-        if (!result.cancelled) {
-            setImage(result.uri);
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
         }
     };
     const pickImage = async () => {
@@ -112,8 +112,8 @@ export default function UploadPic(props) {
 
         console.log(result);
 
-        if (!result.cancelled) {
-            setImage(result.uri);
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
         }
     };
     return (

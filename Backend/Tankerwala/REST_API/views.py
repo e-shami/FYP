@@ -180,13 +180,6 @@ def signupAsRider(request):
             newReg = TankerwalaUser(user=user, phoneNumber=phone, cityName=city, wallet=wallet)
             newReg.save()
             
-            exception2 = addOutgoingCallerID(acc_sid=TwilioAccSID, auth_token=authToken, friendly_name=name, number=phone)
-            if exception2 is not None:
-                return JsonResponse({
-                    'status': 404,
-                    "msg": str(exception2.msg)
-                }, status=404)
-            
             return JsonResponse({
                 'status': 200,
                 "msg": "Account Created Successfully",
@@ -441,7 +434,7 @@ def cancelRide(request):
             wallet.save()
         return JsonResponse({
             "status": 200,
-            "msg": "Ride Cancelled"
+            "msg": "Ride Canceled"
         })
     except Exception as e:
         print(e)
@@ -770,7 +763,6 @@ def checkPromo(request):
         data = request.data
         print(data)
         code = data['promo'].strip()
-        code = code.upper()
         print(code)
         now = datetime.datetime.now()
         promo = Coupon.objects.filter(Code=code, validFrom__lte=now, validTill__gte=now)
@@ -778,7 +770,8 @@ def checkPromo(request):
         if promo.count() > 0:
             promo = promo[0]
             cityUser = TankerwalaUser.objects.get(user=request.user)
-            rides = Ride.objects.filter(Coupon=promo, rider=cityUser).count()
+            rides = Ride.objects.filter(coupon=promo, rider=cityUser).count()
+            print("rides are: ", rides)
             if rides >= promo.NoOfRides:
                 return JsonResponse({
                     'status': 404,

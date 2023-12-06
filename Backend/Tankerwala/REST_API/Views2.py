@@ -88,7 +88,9 @@ def waterTankLevelHistory(request):
     print(request.user.id)
     print(filterType)
     print("all_records: ", all_records)
-    lastReading = all_records.order_by('-creationDate')[0]
+    lastReading = waterTankLevel()
+    if (all_records.count() > 0):
+        lastReading = all_records.order_by('-creationDate')[0]
     estimatedRemainingTime = "24+"
     record = []
     if "LAST_30_MIN" == filterType:
@@ -145,10 +147,12 @@ def waterTankLevelHistory(request):
             tankeLevel=Avg('level')
         ).order_by('-day')
         record = list(all_records)
-    
+
+    print("record so far is:" ,  record)
+
     return JsonResponse({
         "status": 200,
-        "msg": record,
+        "msg": record if len(record) > 0 else [],
         "lastReading": lastReading.level,
         "totalCapacity": "1000",
         "estimatedRemainingTime": estimatedRemainingTime
