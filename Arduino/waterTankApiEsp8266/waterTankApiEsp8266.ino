@@ -3,11 +3,14 @@
 
 
 const String DATA_POST_URL = "http://192.168.0.119:8000/api/update-tank-level/";
+
 const char *ssid = "Apni Auqat";
 const char *password = "gulugulu123";
-const int API_REQUEST_DELAY_IN_MICROSECONDS = 1000 * 5 * 1 ;
-const String USER_ID = "17";
 
+const int API_REQUEST_DELAY_IN_MICROSECONDS = 1000 * 5 * 1 ;
+
+//user details
+const String USER_ID = "17";
 
 const int trigPin = 12;
 const int echoPin = 14;

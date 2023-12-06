@@ -101,6 +101,7 @@ class TankerwalaUser(models.Model):
 
 class waterTankLevel(models.Model):
     user = models.ForeignKey(TankerwalaUser, on_delete=models.CASCADE)
+    totalCapacity = models.FloatField(null=False, default=0.0)
     level = models.FloatField(null=False)
     creationDate = models.DateTimeField(null=False)
 

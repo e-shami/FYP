@@ -3,7 +3,7 @@ let MainUrl = "http://"+Domain+"/api/"
 let  WsUrl = `ws://${Domain}/`
 let isDev = true;
 if(isDev){
-    Domain = "10.113.82.253:8000"
+    Domain = "192.168.0.119:8000"
     MainUrl = "http://"+Domain+"/api/"
     WsUrl = `ws://${Domain}/`
 }
