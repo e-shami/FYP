@@ -539,7 +539,7 @@ export default function Dashboard(props) {
                   ? graphData.datasets
                   : [
                       {
-                        datsa: [
+                        data: [
                           Math.random() * 100,
                           Math.random() * 100,
                           Math.random() * 100,
