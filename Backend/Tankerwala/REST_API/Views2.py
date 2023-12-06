@@ -103,7 +103,7 @@ def waterTankLevelHistory(request):
         ).order_by('-minute', '-hour')
         avgLoss = all_records.aggregate(Avg('level'))
         # if the avg loss in 30 mins is avgLoss then calculate the remaining time
-        if avgLoss["level__avg"] is not None:
+        if avgLoss["level__avg"] is not None and avgLoss["level__avg"] > 0:
             estimatedRemainingTime = (lastReading.level / avgLoss["level__avg"]) * 30
         #     estimated remaining time in hours
             estimatedRemainingTime = estimatedRemainingTime / 60
@@ -145,6 +145,9 @@ def waterTankLevelHistory(request):
             tankeLevel=Avg('level')
         ).order_by('-day')
         record = list(all_records)
+
+    
+    print(record)
     
 
     return JsonResponse({
@@ -161,13 +164,15 @@ def waterTankLevelHistory(request):
 def updateTankLevel(request):
     data = request.GET
     userId = data.get("userId", None)
-    distanceInCm = float(data.get("distanceInCm", None))
+    distanceInMeters = float(data.get("distanceInMeters", None))
+    tankHeight = float(data.get("tankHeight", None))
+    calculatedCapacity = (tankHeight - distanceInMeters)/tankHeight*100
     try:
         user = TankerwalaUser.objects.get(user=userId)
         myWaterTankLevel = waterTankLevel()
         myWaterTankLevel.user = user
-        myWaterTankLevel.totalCapacity = 1000
-        myWaterTankLevel.level = distanceInCm
+        myWaterTankLevel.totalCapacity = tankHeight
+        myWaterTankLevel.level = calculatedCapacity
         myWaterTankLevel.creationDate = datetime.datetime.now()
         myWaterTankLevel.save()
 

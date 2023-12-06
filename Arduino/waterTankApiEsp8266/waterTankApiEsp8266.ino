@@ -19,6 +19,9 @@ const int echoPin = 14;
 #define SOUND_VELOCITY 0.034
 #define CM_TO_INCH 0.393701
 
+// defining tank height in meters
+const int tankHeight = 2;
+
 WiFiClient client;
 HTTPClient http;
 
@@ -80,13 +83,14 @@ void loop()
 
   // Calculate the distance
   distanceCm = duration * SOUND_VELOCITY / 2;
+  float distanceInMeters = distanceCm/100;
 
   // =================================================================================
 
 
   // ============================= API Request ========================================
 
-    String serverPath = DATA_POST_URL + "?distanceInCm=" + String(distanceCm) +"&userId="+USER_ID;
+    String serverPath = DATA_POST_URL + "?distanceInMeters=" + String(distanceInMeters) +"&tankHeight="+String(tankHeight) + "&userId="+USER_ID;
     http.begin(client, serverPath.c_str());
     
     int httpResponseCode = http.GET();

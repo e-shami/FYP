@@ -269,13 +269,12 @@ export default function Dashboard(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.status == 200) {
+        if (data.status === 200) {
           console.log("data is: ", data);
           if (filterType !== "LAST_30_MIN") {
             let temp = data;
             temp.estimatedRemainingTime = customerData.estimatedRemainingTime;
             setCustomerData(temp);
-            console.log("temp data is: ", temp);
           } else {
             setCustomerData(data);
           }
@@ -323,7 +322,7 @@ export default function Dashboard(props) {
       <View
         style={[
           styles.FirstContainer,
-          { height: appMode.SwitchUserDefaultData.isUserDriver ? 200 : 350 },
+          { height: appMode.SwitchUserDefaultData.isUserDriver ? 200 : 250 },
         ]}
       >
         <Text
@@ -360,38 +359,6 @@ export default function Dashboard(props) {
                 marginTop: 20,
               }}
             >
-              <View
-                style={{
-                  justifyContent: "space-between",
-                  marginHorizontal: 20,
-                  width: "90%",
-                  flexDirection: "row",
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 18,
-                    fontWeight: "800",
-                    fontFamily: "Poppins_400Regular",
-                  }}
-                >
-                  Total Capacity:
-                </Text>
-
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 18,
-                    fontWeight: "800",
-                    fontFamily: "Poppins_400Regular",
-                    textDecorationLine: "underline",
-                  }}
-                >
-                  {customerData.totalCapacity} L
-                </Text>
-              </View>
-
               <View
                 style={{
                   justifyContent: "space-between",

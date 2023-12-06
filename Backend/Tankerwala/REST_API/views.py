@@ -114,12 +114,12 @@ def login(response):
         msg = "Hey " + user.first_name.strip() + "!, Your OTP code for Tankerwala is " + otp + ". Don't share OTP with anyone else."
         print(cityUser.phoneNumber)
         print(msg)
-        exception = sendMsg(acc_sid=TwilioAccSID, auth_token=authToken, body=msg, sender=sender, receiver=cityUser.phoneNumber)
-        if exception is not None:
-            return JsonResponse({
-                'status': 404,
-                "msg": str(exception.msg)
-            }, status=404)
+        # exception = sendMsg(acc_sid=TwilioAccSID, auth_token=authToken, body=msg, sender=sender, receiver=cityUser.phoneNumber)
+        # if exception is not None:
+        #     return JsonResponse({
+        #         'status': 404,
+        #         "msg": str(exception.msg)
+        #     }, status=404)
         
         return JsonResponse({
             'status': 200,
@@ -450,6 +450,7 @@ def cancelRide(request):
 def dashboard(request):
     try:
         cityUser = TankerwalaUser.objects.get(user=request.user)
+        print(cityUser)
         data = request.data
         now = datetime.date.today()
         week = now - datetime.timedelta(days=7)
@@ -466,6 +467,7 @@ def dashboard(request):
             kms = kms['distance__sum']
             if kms is None:
                 kms = 0
+            msg = {"wallet": wallet, "TRT": count, "DC": kms}
 
             print(wallet, "\n", count, "\n", kms)
             return JsonResponse({
