@@ -34,7 +34,7 @@ export default function Dashboard(props) {
   });
 
   const [customerData, setCustomerData] = useState({
-    totalCapacity: 0,
+    msg: [],
     lastReading: 0,
     estimatedRemainingTime: "",
   });
@@ -269,7 +269,7 @@ export default function Dashboard(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.status === 200) {
+        if (data.status == 200) {
           console.log("data is: ", data);
           if (filterType !== "LAST_30_MIN") {
             let temp = data;

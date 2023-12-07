@@ -467,7 +467,7 @@ def dashboard(request):
             kms = kms['distance__sum']
             if kms is None:
                 kms = 0
-            msg = {"wallet": wallet, "TRT": count, "DC": kms}
+            msg = {"wallet": wallet, "TRT": count, "DC": kms} 
 
             print(wallet, "\n", count, "\n", kms)
             return JsonResponse({

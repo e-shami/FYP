@@ -103,7 +103,7 @@ def waterTankLevelHistory(request):
         ).order_by('-minute', '-hour')
         avgLoss = all_records.aggregate(Avg('level'))
         # if the avg loss in 30 mins is avgLoss then calculate the remaining time
-        if avgLoss["level__avg"] is not None and avgLoss["level__avg"] > 0:
+        if avgLoss["level__avg"] is not None:
             estimatedRemainingTime = (lastReading.level / avgLoss["level__avg"]) * 30
         #     estimated remaining time in hours
             estimatedRemainingTime = estimatedRemainingTime / 60
@@ -152,9 +152,8 @@ def waterTankLevelHistory(request):
 
     return JsonResponse({
         "status": 200,
-        "msg": record if len(record) > 0 else [],
+        "msg": record,
         "lastReading": lastReading.level,
-        "totalCapacity": "1000",
         "estimatedRemainingTime": estimatedRemainingTime
     })
 
