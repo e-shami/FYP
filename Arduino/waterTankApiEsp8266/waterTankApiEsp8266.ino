@@ -2,10 +2,10 @@
 #include <ESP8266HTTPClient.h>
 
 
-const String DATA_POST_URL = "http://192.168.0.119:8000/api/update-tank-level/";
+const String DATA_POST_URL = "http://172.20.10.5:8000/api/update-tank-level/";
 
-const char *ssid = "Apni Auqat";
-const char *password = "gulugulu123";
+const char *ssid = "Attah's iPhone";
+const char *password = "kaka1234";
 
 const int API_REQUEST_DELAY_IN_MICROSECONDS = 1000 * 5 * 1 ;
 
