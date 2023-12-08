@@ -26,9 +26,9 @@ export default function UploadPicModal(props) {
         console.log(result);
 
         if (!result.canceled) {
-            SetDP(result.assets[0].uri);
+            SetDP(result.uri);
             props.setModalVisible(false);
-            props.setImage(result.assets[0].uri)
+            props.setImage(result.uri)
         }
     };
     const pickDP = async () => {
@@ -43,9 +43,9 @@ export default function UploadPicModal(props) {
         console.log(result);
 
         if (!result.canceled) {
-            SetDP(result.assets[0].uri);
+            SetDP(result.uri);
             props.setModalVisible(false);
-            props.setImage(result.assets[0].uri)
+            props.setImage(result.uri)
         }
     };
     const styles2 = StyleSheet.create({

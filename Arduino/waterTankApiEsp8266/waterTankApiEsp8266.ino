@@ -2,10 +2,10 @@
 #include <ESP8266HTTPClient.h>
 
 
-const String DATA_POST_URL = "http://192.168.137.233:8000/api/update-tank-level/";
+const String DATA_POST_URL = "http://192.168.0.119:8000/api/update-tank-level/";
 
-const char *ssid = "ATTAALY";
-const char *password = "kaka1223";
+const char *ssid = "Apni Auqat";
+const char *password = "gulugulu123";
 
 const int API_REQUEST_DELAY_IN_MICROSECONDS = 1000 * 5 * 1 ;
 
@@ -20,7 +20,7 @@ const int echoPin = 14;
 #define CM_TO_INCH 0.393701
 
 // defining tank height in meters
-const float tankHeight = 0.2;
+const int tankHeight = 100 * 1;
 
 WiFiClient client;
 HTTPClient http;
@@ -83,14 +83,13 @@ void loop()
 
   // Calculate the distance
   distanceCm = duration * SOUND_VELOCITY / 2;
-  float distanceInMeters = distanceCm/100;
 
   // =================================================================================
 
 
   // ============================= API Request ========================================
 
-    String serverPath = DATA_POST_URL + "?distanceInMeters=" + String(distanceInMeters) +"&tankHeight="+String(tankHeight) + "&userId="+USER_ID;
+    String serverPath = DATA_POST_URL + "?distanceCm=" + String(distanceCm) +"&tankHeight="+String(tankHeight) + "&userId="+USER_ID;
     http.begin(client, serverPath.c_str());
     
     int httpResponseCode = http.GET();

@@ -34,7 +34,6 @@ export default function Dashboard(props) {
   });
 
   const [customerData, setCustomerData] = useState({
-    msg: [],
     lastReading: 0,
     estimatedRemainingTime: "",
   });
@@ -254,7 +253,7 @@ export default function Dashboard(props) {
       labels: labels,
       datasets: datasets,
     };
-    console.log(tempData);
+    console.log("tempData", tempData);
     setGraphData(tempData);
   };
 
@@ -274,9 +273,18 @@ export default function Dashboard(props) {
           if (filterType !== "LAST_30_MIN") {
             let temp = data;
             temp.estimatedRemainingTime = customerData.estimatedRemainingTime;
-            setCustomerData(temp);
+            tempData = {
+              lastReading: temp.lastReading,
+              estimatedRemainingTime: temp.estimatedRemainingTime,
+            }
+            setCustomerData(tempData);
           } else {
-            setCustomerData(data);
+            console.log("data is: ", data);
+            tempData = {
+              lastReading: data.lastReading,
+              estimatedRemainingTime: data.estimatedRemainingTime
+            }
+            setCustomerData(tempData);
           }
           translateIntoGraphData(data.msg);
 
@@ -496,7 +504,7 @@ export default function Dashboard(props) {
             </Pressable>
           </View>
 
-          {graphData.labels.length > 0 && customerData?.msg?.length > 0 ? (
+          {graphData.labels.length > 0 && graphData?.datasets[0].data?.length > 0 ? (
             <LineChart
               data={{
                 labels: graphData?.labels

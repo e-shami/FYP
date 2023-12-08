@@ -95,6 +95,7 @@ class TankerwalaUser(models.Model):
     driver_id = models.OneToOneField(Driver, on_delete=models.CASCADE, null=True, blank=True)
     cityName = models.CharField(null=True, blank=True, default="", max_length=15)
     notificationToken  = models.CharField(null=True,blank=True,default="",max_length=50)
+    lastWaterLevelNotification = models.DateTimeField(null=True,blank=True)
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name

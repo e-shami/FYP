@@ -15,7 +15,7 @@ import {SessionContext} from "../Context/SessionContext";
 import ApiUrls from "../others/Urls";
 import  logo from "../assest/logo.png"
 const SideBar = ({visible, handleVisible}) => {
-    const [verifications, setVerifications] = useState(10);
+    const [verifications, setVerifications] = useState(1);
     const [chats, setChats] = useState(1);
     const SESSION = useContext(SessionContext);
     return (
