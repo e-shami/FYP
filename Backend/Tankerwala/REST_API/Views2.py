@@ -166,7 +166,7 @@ def updateTankLevel(request):
     userId = data.get("userId", None)
     distanceInCM = float(data.get("distanceCm", None))
     tankHeight = float(data.get("tankHeight", None))
-    calculatedCapacity = (tankHeight - distanceInCM)/tankHeight*100
+    calculatedCapacity = round((tankHeight - distanceInCM)/tankHeight*100)
     try:
         user = TankerwalaUser.objects.get(user=userId)
         myWaterTankLevel = waterTankLevel()
@@ -177,11 +177,11 @@ def updateTankLevel(request):
         myWaterTankLevel.save()
 
         try:
-            if myWaterTankLevel.level < 40 and user.lastWaterLevelNotification is None:
+            if myWaterTankLevel.level < 40 and user.lastWaterLevelNotification < datetime.datetime.now() - datetime.timedelta(
+                    minutes=10):
                 sendNotification(user.notificationToken, "Water Tank Level", "Water tank is level is low.")
                 user.lastWaterLevelNotification = datetime.datetime.now()
-            elif myWaterTankLevel.level < 40 and user.lastWaterLevelNotification < datetime.datetime.now() - datetime.timedelta(
-                    minutes=10):             
+            elif myWaterTankLevel.level < 40 and user.lastWaterLevelNotification is None:             
                 sendNotification(user.notificationToken, "Water Tank Level", "Water tank is level is low.")
                 user.lastWaterLevelNotification = datetime.datetime.now()
         except:
