@@ -167,6 +167,8 @@ def updateTankLevel(request):
     distanceInCM = float(data.get("distanceCm", None))
     tankHeight = float(data.get("tankHeight", None))
     calculatedCapacity = round((tankHeight - distanceInCM)/tankHeight*100)
+    if calculatedCapacity < 0:
+        calculatedCapacity = 0
     try:
         user = TankerwalaUser.objects.get(user=userId)
         myWaterTankLevel = waterTankLevel()
