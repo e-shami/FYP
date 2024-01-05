@@ -85,7 +85,7 @@ def GenrateLastMonthDataForEverMin(userId):
 def waterTankLevelHistory(request):
     filterType = request.GET.get("filterType", "LAST_30_MIN")
     all_records = waterTankLevel.objects.filter(user__user=request.user.id)
-    print(all_records)
+    print(datetime.datetime.now() )
     lastReading = waterTankLevel()
     if (all_records.count() > 0):
         lastReading = all_records.order_by('-creationDate')[0]
