@@ -276,14 +276,14 @@ export default function Dashboard(props) {
             tempData = {
               lastReading: temp.lastReading,
               estimatedRemainingTime: temp.estimatedRemainingTime,
-            }
+            };
             setCustomerData(tempData);
           } else {
             console.log("data is: ", data);
             tempData = {
               lastReading: data.lastReading,
-              estimatedRemainingTime: data.estimatedRemainingTime
-            }
+              estimatedRemainingTime: data.estimatedRemainingTime,
+            };
             setCustomerData(tempData);
           }
           translateIntoGraphData(data.msg);
@@ -439,7 +439,7 @@ export default function Dashboard(props) {
             fontFamily: "Poppins_400Regular",
             textAlign: "right",
             marginTop: 4,
-            paddingRight: 8, 
+            paddingRight: 8,
             fontSize: 8,
           }}
         >
@@ -447,46 +447,66 @@ export default function Dashboard(props) {
         </Text>
 
         {customerData.lastReading < 40 ? (
-          <View style={{
-            display:"flex",
-            flexDirection:"row",
-            alignItems:"center",
-            justifyContent:"center",
-            marginTop:10,
-            marginBottom:5,
-            width:"100%",
-          }} >
-            <MaterialCommunityIcons name="bell-alert" size={25} color="#FDA172" />
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 10,
+              marginBottom: 5,
+              width: "100%",
+            }}
+          >
+            <MaterialCommunityIcons
+              name="bell-alert"
+              size={25}
+              color="#FDA172"
+            />
             <Text
               style={{
-                marginLeft:10,
-                width:"75%",
-                fontSize:11,
-                color:"#FDA172",
+                marginLeft: 10,
+                width: "75%",
+                fontSize: 11,
+                color: "#FDA172",
               }}
-              >Your water level is below the set threshold level.
-               <Text style={{color:"#FA8128", fontSize:12, fontWeight:"500"}}>
-                  Order a tanker now?
-               </Text>
-               </Text>
+            >
+              Your water level is below the set threshold level.
+              <Text
+                style={{ color: "#FA8128", fontSize: 12, fontWeight: "500" }}
+              >
+                Order a tanker now?
+              </Text>
+            </Text>
 
-               <TouchableOpacity style={{borderColor:"#FA8128",borderWidth:1, borderRadius:5, paddingVertical:2, paddingHorizontal:5, justifyContent:"center", alignItems:"center", backgroundColor: 'rgba(250, 129, 40, 0.25)'}}
-                onPress={() => {
-                  props.navigation.navigate("Map");
+            <TouchableOpacity
+              style={{
+                borderColor: "#FA8128",
+                borderWidth: 1,
+                borderRadius: 5,
+                paddingVertical: 2,
+                paddingHorizontal: 5,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "rgba(250, 129, 40, 0.25)",
+              }}
+              onPress={() => {
+                props.navigation.navigate("Map");
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 12,
+                  fontWeight: "500",
+                  textAlign: "center",
                 }}
-          >
-                 <Text
-                   style={{
-                     color:"white",
-                     fontSize:12,
-                     fontWeight:"500",
-                     textAlign:"center"
-                   }}
-                   >Order Now
-                   </Text>
-               </TouchableOpacity>
+              >
+                Order Now
+              </Text>
+            </TouchableOpacity>
           </View>
-         ): null}
+        ) : null}
 
         {/* </ImageBackground> */}
       </View>
@@ -549,7 +569,8 @@ export default function Dashboard(props) {
             </Pressable>
           </View>
 
-          {graphData.labels.length > 0 && graphData?.datasets[0].data?.length > 0 ? (
+          {graphData.labels.length > 0 &&
+          graphData?.datasets[0].data?.length > 0 ? (
             <LineChart
               data={{
                 labels: graphData?.labels
