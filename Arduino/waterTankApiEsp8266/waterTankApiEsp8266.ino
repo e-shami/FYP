@@ -2,10 +2,10 @@
 #include <ESP8266HTTPClient.h>
 
 
-const String DATA_POST_URL = "http://172.20.10.5:8000/api/update-tank-level/";
+const String DATA_POST_URL = "http://192.168.0.114:8000/api/update-tank-level/";
 
-const char *ssid = "POCO X3 Pro";
-const char *password = "asdfghjk";
+const char *ssid = "Apni Auqat";
+const char *password = "gulugulu123";
 
 const int API_REQUEST_DELAY_IN_MICROSECONDS = 1000 * 5 * 1 ;
 
@@ -20,7 +20,7 @@ const int echoPin = 14;
 #define CM_TO_INCH 0.393701
 
 // defining tank height in meters
-const int tankHeight = 20 * 1;
+const int tankHeight = 15 * 1;
 
 WiFiClient client;
 HTTPClient http;
