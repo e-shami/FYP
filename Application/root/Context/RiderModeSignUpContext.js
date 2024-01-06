@@ -36,6 +36,11 @@ const RiderModeSignUpContext = createContext({
 
 });
 
+function isAlphabetic(name) {
+    return /^[A-Za-z\s]+$/.test(name);
+}
+
+
 
 export default function RiderModeSignUpContextProvider({children}) {
     const [userDat, setUserDat] = useState(DriverSignUpData);
@@ -43,10 +48,10 @@ export default function RiderModeSignUpContextProvider({children}) {
     const Validator = {
 
         isCityValid: () => {
-            return userDat.city.trim().length > 0
+            return userDat.city.trim().length > 0 && isAlphabetic(userDat.city);
         },
         isNameValid: () => {
-            return userDat.name.trim().length > 0
+            return userDat.name.trim().length > 0 && isAlphabetic(userDat.name);
         },
         isEmailValid: () => {
             const emailRegis = "[a-zA-Z0-9.]+[@][a-zA-Z]*[.][a-zA-Z]+";
@@ -73,6 +78,10 @@ export default function RiderModeSignUpContextProvider({children}) {
         }, isCarColorValid: () => {
             return userDat.carColor.trim().length > 0;
 
+        },
+        isNationIdCardNoValid: () => {
+            const idCard = "[0-9]{13}";
+            return !!userDat.NationIdCardNo.match(idCard)
         },
         isValid: (filed) => {
             return filed.trim().length > 0;

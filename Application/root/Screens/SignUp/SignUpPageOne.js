@@ -132,7 +132,7 @@ export default function SignUpPageOne(props) {
             if (!UserData.Validator.isPhoneNoValid())
                 error.push("Enter a valid phone no")
             if (!UserData.Validator.isCityValid())
-                error.push("Please Select a City")
+                error.push("Enter valid city name")
             if (error.length > 0) {
                 setErrors(error);
                 return;

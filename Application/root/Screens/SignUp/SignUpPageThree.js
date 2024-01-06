@@ -60,7 +60,7 @@ export default function SignUpPageThree(props) {
     return (
         <BaseRegistration errors={errors} navigation={props.navigation} setErrors={setErrors} page={3} onPress={() => {
             let error = [];
-            if (!UserData.Validator.isValid(UserData.DriverSignUpData.NationIdCardNo))
+            if (!UserData.Validator.isNationIdCardNoValid())
                 error.push("Enter a valid  national id card no ")
             if (!UserData.Validator.isValid(UserData.DriverSignUpData.DriversLicense))
                 error.push("Enter a valid DriversLicense")
