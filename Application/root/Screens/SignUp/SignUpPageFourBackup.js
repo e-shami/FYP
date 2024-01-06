@@ -45,15 +45,15 @@ export default function SignUpPageFourBackup(props) {
     });
 
     if (!result.canceled) {
-      setDriverLicense(result.uri);
+      setDriverLicense(result.assets[0].uri.uri);
       var dataCopy = Object.assign({}, filed.current);
       dataCopy.DriversLicenseImg = {
         uri:
           Platform.OS === "android"
-            ? result.uri
-            : result.uri.replace("file://", ""),
-        name: result.uri.split("/")[
-          result.uri.split("/").length - 1
+            ? result.assets[0].uri
+            : result.assets[0].uri.replace("file://", ""),
+        name: result.assets[0].uri.split("/")[
+          result.assets[0].uri.split("/").length - 1
         ],
 
         type: "multipart/form-data",
@@ -75,15 +75,15 @@ export default function SignUpPageFourBackup(props) {
     console.log(result);
 
     if (!result.canceled) {
-      setSelfie(result.uri);
+      setSelfie(result.assets[0].uri);
       var dataCopy = Object.assign({}, filed.current);
       dataCopy.selfie = {
         uri:
           Platform.OS === "android"
-            ? result.uri
-            : result.uri.replace("file://", ""),
-        name: result.uri.split("/")[
-          result.uri.split("/").length - 1
+            ? result.assets[0].uri
+            : result.assets[0].uri.replace("file://", ""),
+        name: result.assets[0].uri.split("/")[
+          result.assets[0].uri.split("/").length - 1
         ],
 
         type: "multipart/form-data",
@@ -102,16 +102,16 @@ export default function SignUpPageFourBackup(props) {
     console.log(result);
 
     if (!result.canceled) {
-      setVehicleRegistration(result.uri);
+      setVehicleRegistration(result.assets[0].uri);
       a;
       var dataCopy = Object.assign({}, filed.current);
       dataCopy.vehicalRegisterationDocs = {
         uri:
           Platform.OS === "android"
-            ? result.uri
-            : result.uri.replace("file://", ""),
-        name: result.uri.split("/")[
-          result.uri.split("/").length - 1
+            ? result.assets[0].uri
+            : result.assets[0].uri.replace("file://", ""),
+        name: result.assets[0].uri.split("/")[
+          result.assets[0].uri.split("/").length - 1
         ],
 
         type: "multipart/form-data",
@@ -129,15 +129,15 @@ export default function SignUpPageFourBackup(props) {
     });
 
     if (!result.canceled) {
-      setVehiclePic(result.uri);
+      setVehiclePic(result.assets[0].uri);
       var dataCopy = Object.assign({}, filed.current);
       dataCopy.vehicalPicture = {
         uri:
           Platform.OS === "android"
-            ? result.uri
-            : result.uri.replace("file://", ""),
-        name: result.uri.split("/")[
-          result.uri.split("/").length - 1
+            ? result.assets[0].uri
+            : result.assets[0].uri.replace("file://", ""),
+        name: result.assets[0].uri.split("/")[
+          result.assets[0].uri.split("/").length - 1
         ],
 
         type: "multipart/form-data",

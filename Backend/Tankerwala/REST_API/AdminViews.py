@@ -184,6 +184,7 @@ def getVerfiUser(request):
     drivers = TankerwalaUser.objects.filter(driver_id__authStatus=status, user__email__icontains=query,
                                       user__is_active=True).order_by(
         'creationDate')[start:end]
+    print(drivers)
     return JsonResponse({
         "status": 200,
         "data": CityUserSerializerAdmin(drivers, many=True).data

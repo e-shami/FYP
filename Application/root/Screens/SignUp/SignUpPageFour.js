@@ -37,9 +37,9 @@ export default function SignUpPageFour(props) {
         });
 
         if (!result.canceled) {
-            setDriverLicense(result.uri);
+            setDriverLicense(result.assets[0].uri);
             var dataCopy = Object.assign({}, filed.current);
-            const newImageUri = "file:///" + result.uri.split("file:/").join("");
+            const newImageUri = "file:///" + result.assets[0].uri.split("file:/").join("");
 
             dataCopy.DriversLicenseImg =
 
@@ -65,9 +65,9 @@ export default function SignUpPageFour(props) {
 
 
         if (!result.canceled) {
-            setSelfie(result.uri);
+            setSelfie(result.assets[0].uri);
             var dataCopy = Object.assign({}, filed.current);
-            const newImageUri = "file:///" + result.uri.split("file:/").join("");
+            const newImageUri = "file:///" + result.assets[0].uri.split("file:/").join("");
 
 
             dataCopy.selfie =
@@ -92,9 +92,9 @@ export default function SignUpPageFour(props) {
 
 
         if (!result.canceled) {
-            setVehicleRegistration(result.uri);
+            setVehicleRegistration(result.assets[0].uri);
             var dataCopy = Object.assign({}, filed.current);
-            const newImageUri = "file:///" + result.uri.split("file:/").join("");
+            const newImageUri = "file:///" +result.assets[0].uri.split("file:/").join("");
 
             dataCopy.vehicalRegisterationDocs =
 
@@ -117,9 +117,9 @@ export default function SignUpPageFour(props) {
 
 
         if (!result.canceled) {
-            setVehiclePic(result.uri);
+            setVehiclePic(result.assets[0].uri);
             var dataCopy = Object.assign({}, filed.current);
-            const newImageUri = "file:///" + result.uri.split("file:/").join("");
+            const newImageUri = "file:///" + result.assets[0].uri.split("file:/").join("");
 
             dataCopy.vehicalPicture =
 
