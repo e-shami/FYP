@@ -2,7 +2,7 @@ let Domain = "192.168.0.108:8000"
 let MainUrl = "http://"+Domain+"/adminApi/"
 let isDev = true
 if(isDev){
-    Domain = "192.168.43.23:8000"
+    Domain = "192.168.18.74:8000"
     MainUrl = "http://"+Domain+"/adminApi/"
 }
 

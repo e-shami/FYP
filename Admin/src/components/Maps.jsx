@@ -19,7 +19,7 @@ const Maps = ({ route, move = null }) => {
   }, [move]);
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyDPvCZmeGuN-y_pJ3ug7PYrwp6BHyKnNUY",
+    googleMapsApiKey: "AIzaSyDeL0CcA8QVB2wGrB3Yz0LNd4s3EyFlNJI",
     libraries: libraries,
   });
 

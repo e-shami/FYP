@@ -35,7 +35,6 @@ def send_message(expo_token, title, body):
 @api_view(['POST'])
 def login(response):
     data = response.data
-    print(data)
     Email = data["name"].replace("\n", "").replace("\r", "").lower().strip()
     password = data["pass"].replace("\n", "").replace("\r", "").strip()
 

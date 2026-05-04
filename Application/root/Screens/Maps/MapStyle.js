@@ -3,7 +3,7 @@ const generatedMapStyle =[
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#f5f5f5"
+                "color": "#e6e6e6"
             }
         ]
     },
@@ -11,23 +11,23 @@ const generatedMapStyle =[
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "color": "#f5f5f5"
+                "color": "#e6e6e6"
             }
         ]
     },
-    {
-        "elementType": "labels.icon",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
+    // {
+    //     "elementType": "labels.icon",
+    //     "stylers": [
+    //         {
+    //             "visibility": "off"
+    //         }
+    //     ]
+    // },
     {
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "color": "#616161"
+                "color": "#333333"
             }
         ]
     },
@@ -35,7 +35,7 @@ const generatedMapStyle =[
         "elementType": "labels.text.stroke",
         "stylers": [
             {
-                "color": "#f5f5f5"
+                "color": "#ffffff"
             }
         ]
     },
@@ -44,7 +44,7 @@ const generatedMapStyle =[
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "color": "#bdbdbd"
+                "color": "#666666"
             }
         ]
     },
@@ -53,7 +53,7 @@ const generatedMapStyle =[
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#eeeeee"
+                "color": "#cccccc"
             }
         ]
     },
@@ -62,7 +62,7 @@ const generatedMapStyle =[
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "color": "#fafafa"
+                "color": "#dddddd"
             }
         ]
     },
@@ -71,7 +71,7 @@ const generatedMapStyle =[
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "color": "#757575"
+                "color": "#555555"
             }
         ]
     },
@@ -80,7 +80,7 @@ const generatedMapStyle =[
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#e5e5e5"
+                "color": "#a8d5a8"
             }
         ]
     },
@@ -89,7 +89,7 @@ const generatedMapStyle =[
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "color": "#9e9e9e"
+                "color": "#4a7c4a"
             }
         ]
     },
@@ -107,7 +107,7 @@ const generatedMapStyle =[
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "color": "#757575"
+                "color": "#555555"
             }
         ]
     },
@@ -116,7 +116,7 @@ const generatedMapStyle =[
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#dadada"
+                "color": "#ffa500"
             }
         ]
     },
@@ -125,7 +125,7 @@ const generatedMapStyle =[
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "color": "#fafafa"
+                "color": "#ff8c00"
             }
         ]
     },
@@ -134,7 +134,7 @@ const generatedMapStyle =[
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "color": "#616161"
+                "color": "#333333"
             }
         ]
     },
@@ -143,7 +143,7 @@ const generatedMapStyle =[
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "color": "#9e9e9e"
+                "color": "#777777"
             }
         ]
     },
@@ -152,7 +152,7 @@ const generatedMapStyle =[
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#e5e5e5"
+                "color": "#cccccc"
             }
         ]
     },
@@ -161,7 +161,7 @@ const generatedMapStyle =[
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#eeeeee"
+                "color": "#dddddd"
             }
         ]
     },
@@ -169,7 +169,7 @@ const generatedMapStyle =[
         "featureType": "water",
         "stylers": [
             {
-                "color": "#ffffff"
+                "color": "#4d94ff"
             }
         ]
     },
@@ -178,7 +178,7 @@ const generatedMapStyle =[
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#fafafa"
+                "color": "#4d94ff"
             }
         ]
     },
@@ -187,7 +187,7 @@ const generatedMapStyle =[
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "color": "#9e9e9e"
+                "color": "#ffffff"
             }
         ]
     }

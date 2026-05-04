@@ -42,6 +42,11 @@
       "icon": "./assets/notificationIcon.png",
       "package": "com.lunatech.CityGo",
       "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleMaps": {
+          "apiKey": "@env_GOOGLE_MAP_API_KEY"
+        }
+      },
       "useNextNotificationsApi": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

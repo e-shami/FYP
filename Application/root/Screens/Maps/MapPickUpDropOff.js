@@ -7,8 +7,6 @@ import MapViewDirections from "react-native-maps-directions";
 import GOOGLE_MAP_API_KEY from "../../Config/GoogleApiConfig";
 import { PROVIDER_GOOGLE } from "react-native-maps"
 import * as Location from "expo-location";
-import {getCurrentPositionAsync} from "expo-location";
-
 function Circle(props) {
     let text = props.text;
     let color = "blue";
@@ -59,12 +57,7 @@ class MapPickUpDropOff extends React.Component {
             markers: [],
 
         };
-    }
-
-    ResetView() {
-        this.forceUpdate();
-
-    }
+    }s
 
     async GetCurrentLocation() {
         let {status} = await Location.requestForegroundPermissionsAsync();
