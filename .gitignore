@@ -3,10 +3,14 @@
 
 # Ignore .expo directory and node_modules in Application (Expo React Native)
 /Application/.expo/
+/Application/.idea/
 /Application/node_modules/
 /Application/dist/
+/Application/android/
+/Application/ios/
 
 # Ignore .venv directory in Backend (Django)
 /Backend/.venv/
+/Backend/.idea/
 /Backend/Tankerwala/REST_API/migrations/
 /Backend/Tankerwala/REST_API/__pycache__/
